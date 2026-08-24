@@ -17,25 +17,24 @@
 
 ## 创建项目
 
-### 推荐：Gitee 模板功能
-
-将本仓库设置为 Gitee 模板仓库。创建项目时点击“使用模板”或
-“从模板创建”，填写新仓库名称即可获得独立项目。
-
-这种方式不会让新项目错误地指向模板仓库。
-
-### 备用：Git 克隆
+### 免费账号：Git 克隆
 
 ```bash
 git clone https://gitee.com/zhishengevolution/project_template.git my-project
 cd my-project
 git remote rename origin template
 git remote add origin <新项目仓库地址>
-git push -u origin HEAD
+git push -u origin main
 ```
+
+先在 Gitee 免费版中新建一个空仓库，将其地址填入上面的
+`<新项目仓库地址>`。这样新项目拥有独立仓库，同时保留模板提交历史。
 
 保留名为 `template` 的远程仓库，后续可以查看模板更新，但不要直接
 合并所有变更。
+
+Gitee 企业版可以使用平台提供的“模板仓库”按钮，但不是使用本模板的
+必要条件。
 
 ## 首次调整
 
