@@ -3,6 +3,7 @@
 .next
 node_modules
 data
+Resource
 coverage
 out
 build

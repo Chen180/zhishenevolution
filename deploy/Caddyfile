@@ -11,15 +11,7 @@
 {$SITE_ADDRESS} {
 	encode zstd gzip
 
-	@health path /api/health
-	handle @health {
-		import app_proxy
-	}
-
 	handle {
-		basic_auth {
-			{$ADMIN_USER} {$ADMIN_PASSWORD_HASH}
-		}
 		import app_proxy
 	}
 

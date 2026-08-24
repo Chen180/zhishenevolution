@@ -6,7 +6,7 @@
 生产环境运行两个容器：
 
 - `app`：Next.js standalone 应用，只在 Docker 内部监听 `3000`。
-- `caddy`：唯一公网入口，负责 HTTPS、访问认证和反向代理。
+- `caddy`：唯一公网入口，负责 HTTPS、安全响应头和反向代理。
 
 应用数据保存在 Docker Volume，并挂载到 `/app/data`。
 
@@ -46,8 +46,8 @@ docker compose version
 使用域名时，将域名的 A 记录指向 ECS 公网 IP，并等待解析生效。
 Caddy 会自动申请和续期 HTTPS 证书。
 
-只有 IP 时可以先使用 `:80`，但 HTTP 下的 Basic Auth 不加密，
-只适合临时测试。
+只有 IP 时可以先使用 `:80` 通过 HTTP 访问；配置域名后使用 Caddy
+自动签发的 HTTPS 证书。
 
 ## 3. 获取项目
 
@@ -76,10 +76,9 @@ bash docker-deploy.sh
 
 1. 检查 Docker 和 Compose。
 2. 询问域名或 `:80`。
-3. 询问管理员账号和密码。
-4. 生成 Caddy 密码哈希。
-5. 创建权限受限的 `.env`。
-6. 构建镜像并启动容器。
+3. 询问 Docker 镜像名。
+4. 创建权限受限的 `.env`。
+5. 构建镜像并启动容器。
 
 查看状态：
 
@@ -99,7 +98,7 @@ docker compose logs -f
 curl https://your-domain.example/api/health
 ```
 
-健康接口不要求 Basic Auth，且只能返回非敏感状态。
+健康接口只能返回非敏感状态。
 
 ## 5. 更新
 

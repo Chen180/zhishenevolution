@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Project Template",
-  description: "Unified Next.js application and deployment baseline.",
+  title: "六维信用生命树 | 何明轩 · 智神进化纪",
+  description:
+    "从标签身份到文明价值，用金字塔解释成长，用生命树解释运行。",
 };
 
 export default function RootLayout({

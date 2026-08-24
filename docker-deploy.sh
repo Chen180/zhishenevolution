@@ -29,16 +29,6 @@ if [[ ! -f .env ]]; then
   read -r -p 'Public domain, or :80 for IP-only access [:80]: ' site_address
   site_address="${site_address:-:80}"
 
-  read -r -p 'Administrator username [admin]: ' admin_user
-  admin_user="${admin_user:-admin}"
-  [[ "$admin_user" =~ ^[A-Za-z0-9._-]+$ ]] ||
-    fail "Administrator username contains unsupported characters."
-
-  read -r -s -p 'Administrator password (at least 12 characters): ' admin_password
-  printf '\n'
-  [[ ${#admin_password} -ge 12 ]] ||
-    fail "Administrator password is too short."
-
   default_image="$(
     basename "$ROOT_DIR" |
       tr '[:upper:]_' '[:lower:]-' |
@@ -50,23 +40,13 @@ if [[ ! -f .env ]]; then
     fail "Docker image name is invalid."
 
   require_safe_env_value SITE_ADDRESS "$site_address"
-  require_safe_env_value ADMIN_USER "$admin_user"
   require_safe_env_value APP_IMAGE "$app_image"
-
-  printf 'Generating the administrator password hash...\n'
-  admin_password_hash="$(
-    docker run --rm caddy:2.11-alpine \
-      caddy hash-password --plaintext "$admin_password"
-  )"
-  unset admin_password
 
   umask 077
   {
     printf "SITE_ADDRESS='%s'\n" "$site_address"
     printf "HTTP_PORT='80'\n"
     printf "HTTPS_PORT='443'\n"
-    printf "ADMIN_USER='%s'\n" "$admin_user"
-    printf "ADMIN_PASSWORD_HASH='%s'\n" "$admin_password_hash"
     printf "APP_IMAGE='%s'\n" "$app_image"
     printf "IMAGE_TAG='local'\n"
     printf "TZ='Asia/Shanghai'\n"

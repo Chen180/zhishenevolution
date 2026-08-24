@@ -16,6 +16,7 @@
 # Local data
 /data/*
 !/data/.gitkeep
+/Resource/
 
 # Environment files
 .env*
