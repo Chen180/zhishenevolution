@@ -1,0 +1,290 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3f5f7;
+  --surface: #ffffff;
+  --surface-muted: #eef1f4;
+  --text: #171a1f;
+  --text-muted: #65707d;
+  --border: #d8dde3;
+  --accent: #e85d2a;
+  --success: #18864b;
+  --code: #214c73;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+  letter-spacing: 0;
+}
+
+code {
+  color: var(--code);
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.app-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding-bottom: 32px;
+}
+
+.topbar {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand,
+.status {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--text);
+  color: var(--surface);
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.status {
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.intro {
+  padding: 72px 0 56px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+h1,
+h2,
+p {
+  letter-spacing: 0;
+}
+
+h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.08;
+}
+
+.summary {
+  max-width: 680px;
+  margin: 24px 0 0;
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--border);
+}
+
+.metric {
+  min-width: 0;
+  padding: 24px 20px;
+  border-right: 1px solid var(--border);
+}
+
+.metric:first-child {
+  padding-left: 0;
+}
+
+.metric:last-child {
+  border-right: 0;
+}
+
+.metric span,
+.metric strong {
+  display: block;
+}
+
+.metric span {
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.metric strong {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 40px 0;
+}
+
+.panel {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.section-heading {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.section-index {
+  color: #a2aab3;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+}
+
+.rows {
+  width: 100%;
+}
+
+.row {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: minmax(100px, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--surface-muted);
+  font-size: 13px;
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row > span {
+  color: var(--text-muted);
+}
+
+.row code,
+.check-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.check-value {
+  color: var(--success);
+}
+
+footer {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    width: min(100% - 28px, 1120px);
+  }
+
+  .topbar {
+    min-height: 64px;
+  }
+
+  .status {
+    font-size: 0;
+  }
+
+  .intro {
+    padding: 52px 0 40px;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .summary {
+    font-size: 15px;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric,
+  .metric:first-child {
+    padding: 18px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metric:nth-child(2) {
+    border-right: 0;
+  }
+
+  .metric:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .metric:nth-child(odd) {
+    padding-left: 0;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    padding: 28px 0;
+  }
+}

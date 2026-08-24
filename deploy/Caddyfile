@@ -1,0 +1,38 @@
+(app_proxy) {
+	reverse_proxy app:3000 {
+		flush_interval -1
+		transport http {
+			dial_timeout 10s
+			response_header_timeout 5m
+		}
+	}
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	@health path /api/health
+	handle @health {
+		import app_proxy
+	}
+
+	handle {
+		basic_auth {
+			{$ADMIN_USER} {$ADMIN_PASSWORD_HASH}
+		}
+		import app_proxy
+	}
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

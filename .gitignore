@@ -1,0 +1,33 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# Tests
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+
+# Local data
+/data/*
+!/data/.gitkeep
+
+# Environment files
+.env*
+!.env.example
+
+# Tooling
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+# Logs and local files
+*.log
+*.pem
+.DS_Store
+Thumbs.db

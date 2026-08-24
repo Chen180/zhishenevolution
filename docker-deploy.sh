@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT_DIR"
+
+fail() {
+  printf 'Error: %s\n' "$1" >&2
+  exit 1
+}
+
+require_safe_env_value() {
+  local name="$1"
+  local value="$2"
+  if [[ "$value" == *"'"* || "$value" == *$'\n'* || "$value" == *$'\r'* ]]; then
+    fail "$name cannot contain single quotes or line breaks."
+  fi
+}
+
+command -v docker >/dev/null 2>&1 || fail "Docker is not installed."
+docker compose version >/dev/null 2>&1 ||
+  fail "Docker Compose is not available."
+docker info >/dev/null 2>&1 ||
+  fail "Docker is not running or the current user cannot access it."
+
+if [[ ! -f .env ]]; then
+  printf 'Creating .env for the first deployment.\n'
+
+  read -r -p 'Public domain, or :80 for IP-only access [:80]: ' site_address
+  site_address="${site_address:-:80}"
+
+  read -r -p 'Administrator username [admin]: ' admin_user
+  admin_user="${admin_user:-admin}"
+  [[ "$admin_user" =~ ^[A-Za-z0-9._-]+$ ]] ||
+    fail "Administrator username contains unsupported characters."
+
+  read -r -s -p 'Administrator password (at least 12 characters): ' admin_password
+  printf '\n'
+  [[ ${#admin_password} -ge 12 ]] ||
+    fail "Administrator password is too short."
+
+  default_image="$(
+    basename "$ROOT_DIR" |
+      tr '[:upper:]_' '[:lower:]-' |
+      sed 's/[^a-z0-9.-]/-/g'
+  )"
+  read -r -p "Docker image name [$default_image]: " app_image
+  app_image="${app_image:-$default_image}"
+  [[ "$app_image" =~ ^[a-z0-9][a-z0-9._/-]*$ ]] ||
+    fail "Docker image name is invalid."
+
+  require_safe_env_value SITE_ADDRESS "$site_address"
+  require_safe_env_value ADMIN_USER "$admin_user"
+  require_safe_env_value APP_IMAGE "$app_image"
+
+  printf 'Generating the administrator password hash...\n'
+  admin_password_hash="$(
+    docker run --rm caddy:2.11-alpine \
+      caddy hash-password --plaintext "$admin_password"
+  )"
+  unset admin_password
+
+  umask 077
+  {
+    printf "SITE_ADDRESS='%s'\n" "$site_address"
+    printf "HTTP_PORT='80'\n"
+    printf "HTTPS_PORT='443'\n"
+    printf "ADMIN_USER='%s'\n" "$admin_user"
+    printf "ADMIN_PASSWORD_HASH='%s'\n" "$admin_password_hash"
+    printf "APP_IMAGE='%s'\n" "$app_image"
+    printf "IMAGE_TAG='local'\n"
+    printf "TZ='Asia/Shanghai'\n"
+  } >.env
+  chmod 600 .env
+
+  printf '.env created with restricted permissions.\n'
+else
+  printf 'Using the existing .env file.\n'
+fi
+
+docker compose config --quiet
+docker compose up -d --build --remove-orphans
+docker compose ps
+
+printf '\nDeployment finished. Run "docker compose logs -f" to follow logs.\n'
