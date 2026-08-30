@@ -1297,6 +1297,50 @@
       font-size: 13px;
     }
 
+    .footer-contact {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line-dark);
+      max-width: 620px;
+    }
+
+    .contact-label {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--gold-light);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact-channels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 28px;
+      align-items: center;
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted-light);
+      font-size: 14px;
+    }
+
+    .contact-item i,
+    .contact-item svg {
+      width: 17px;
+      height: 17px;
+      color: var(--gold);
+    }
+
+    .contact-item .contact-id {
+      color: var(--text-light);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
     dialog {
       width: min(760px, calc(100% - 36px));
       max-height: calc(100svh - 36px);
@@ -1852,6 +1896,12 @@
         text-align: left;
       }
 
+      .contact-channels {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
       .dialog-body {
         padding: 28px 22px 34px;
       }
@@ -2300,7 +2350,17 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <p class="footer-statement">一个人真正的进化，是让根更深、年轮更密、树冠更广，最终结出能够留给世界的果实。</p>
+      <div>
+        <p class="footer-statement">一个人真正的进化，是让根更深、年轮更密、树冠更广，最终结出能够留给世界的果实。</p>
+        <div class="footer-contact" aria-label="联系方式">
+          <span class="contact-label">联系何明轩</span>
+          <div class="contact-channels">
+            <span class="contact-item"><i data-lucide="message-circle" aria-hidden="true"></i>公众号「智神进化纪」</span>
+            <span class="contact-item"><i data-lucide="video" aria-hidden="true"></i>视频号「何明轩在进化」</span>
+            <span class="contact-item"><i data-lucide="user" aria-hidden="true"></i>微信：<span class="contact-id">IAMCAT156</span></span>
+          </div>
+        </div>
+      </div>
       <div class="footer-meta">
         <strong>智神进化纪 · 六维信用体系</strong>
         <span>何明轩 © 2026 · Framework 3.0</span>
