@@ -1,72 +1,518 @@
 .frame {
+  --pointer-x: 0px;
+  --pointer-y: 0px;
+
   position: relative;
+  isolation: isolate;
   width: 100%;
-  max-width: 540px;
+  max-width: 620px;
   margin: 0 auto;
   overflow: hidden;
-  background: #f7faf8;
-  border: 1px solid #dce5df;
+  background: #020505;
+  border: 1px solid #50432d;
   border-radius: 8px;
+  box-shadow:
+    0 24px 60px rgb(0 0 0 / 18%),
+    inset 0 0 48px rgb(217 164 75 / 8%);
+}
+
+.frame::after {
+  position: absolute;
+  inset: 0 0 57px;
+  z-index: 3;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 22%), transparent 17% 83%, rgb(0 0 0 / 25%)),
+    linear-gradient(0deg, rgb(0 0 0 / 28%), transparent 24%);
+  content: "";
+  pointer-events: none;
 }
 
 .tree {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 24 / 25;
+  aspect-ratio: 72 / 73;
+  touch-action: pan-y;
 }
 
-.weather,
-.roots,
-.canopyBranches,
-.rings,
-.leaves,
-.fruits {
-  transition: opacity 240ms ease;
+.scene {
+  transform: translate3d(var(--pointer-x), var(--pointer-y), 0) scale(1.018);
+  transform-origin: center;
+  transition: transform 240ms ease-out;
+}
+
+.interactiveLayer {
+  cursor: pointer;
+  transition:
+    opacity 220ms ease,
+    filter 220ms ease;
+}
+
+.layerMuted {
+  opacity: 0.16 !important;
+  filter: saturate(0.35) brightness(0.58) !important;
+}
+
+.layerActive {
+  filter:
+    brightness(1.25)
+    saturate(1.18)
+    drop-shadow(0 0 8px rgb(241 190 91 / 58%)) !important;
+}
+
+.dimensionDetail {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: min(210px, calc(100% - 32px));
+  min-height: 82px;
+  padding: 12px 14px 11px 17px;
+  background: rgb(4 8 6 / 88%);
+  border: 1px solid color-mix(in srgb, var(--active-color) 58%, #3f3c32);
+  border-radius: 6px;
+  box-shadow:
+    0 12px 30px rgb(0 0 0 / 32%),
+    inset 3px 0 0 var(--active-color);
+  color: #f4ead3;
+  pointer-events: none;
+  animation: detailReveal 180ms ease-out both;
+}
+
+.dimensionDetail span {
+  grid-column: 1 / -1;
+  margin-bottom: 7px;
+  overflow: hidden;
+  color: #a9aeaa;
+  font-size: 11px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dimensionDetail strong {
+  align-self: end;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.dimensionDetail b {
+  grid-row: 2 / span 2;
+  grid-column: 2;
+  align-self: center;
+  color: var(--active-color);
+  font-family: var(--font-sans);
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.dimensionDetail small {
+  margin-top: 4px;
+  color: #d1c5ab;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.canopyAura {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: auraBreathe 6.5s ease-in-out infinite;
+}
+
+.sunAura {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sunPulse 5s ease-in-out infinite;
+}
+
+.weather {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cloudDrift 7s ease-in-out infinite alternate;
+}
+
+.rain {
+  stroke-dasharray: 10 7;
+  animation: rainFall 1.25s linear infinite;
+}
+
+.soilParticles circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: soilGlow 5.5s ease-in-out infinite;
+}
+
+.root,
+.branch {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawGrowth 1.45s cubic-bezier(0.22, 0.8, 0.28, 1) forwards;
+}
+
+.root {
+  animation-duration: 1.8s;
+}
+
+.canopyMasses ellipse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: canopyRustle 7s ease-in-out infinite alternate;
+}
+
+.trunk {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: trunkRise 1.15s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.leaf ellipse,
+.leaf path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: leafSway;
+  animation-duration: inherit;
+  animation-timing-function: ease-in-out;
+  animation-delay: inherit;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.leaf path {
+  animation-name: leafVeinSway;
+}
+
+.fruit circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: fruitPulse;
+  animation-duration: inherit;
+  animation-timing-function: ease-in-out;
+  animation-delay: inherit;
+  animation-iteration-count: infinite;
+}
+
+.fruit path {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation-name: fruitStemSway;
+  animation-duration: inherit;
+  animation-timing-function: ease-in-out;
+  animation-delay: inherit;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.seeds {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: seedWake 5s ease-in-out infinite;
 }
 
 .caption {
+  position: relative;
+  z-index: 4;
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  border-top: 1px solid #dce5df;
-  color: #65706a;
+  background: #090c0a;
+  border-top: 1px solid #50432d;
+  color: #c9c2b1;
   font-size: 12px;
   line-height: 1;
   text-align: center;
 }
 
-.caption span {
+.legendButton {
+  appearance: none;
   min-width: 0;
-  padding: 13px 4px;
-  border-right: 1px solid #e8eeea;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 4px;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid #29271f;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
 }
 
-.caption span:last-child {
+.legendButton:last-child {
   border-right: 0;
 }
 
+.legendButton:hover,
+.legendButton:focus-visible,
+.legendButton[aria-pressed="true"] {
+  background: rgb(255 255 255 / 5%);
+  box-shadow: inset 0 2px 0 var(--legend-color);
+  color: #fff4dd;
+  outline: none;
+}
+
+.legendButton:focus-visible {
+  box-shadow:
+    inset 0 2px 0 var(--legend-color),
+    inset 0 0 0 2px rgb(255 255 255 / 42%);
+}
+
+.legendButton i {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.labelMark {
+  background: #d2a34c;
+  color: #d2a34c;
+}
+
+.timeMark {
+  background: #9a6a3b;
+  color: #9a6a3b;
+}
+
+.environmentMark {
+  background: #5f9ca8;
+  color: #5f9ca8;
+}
+
+.personalityMark {
+  background: #c88950;
+  color: #c88950;
+}
+
+.socialMark {
+  background: #789b45;
+  color: #789b45;
+}
+
+.civilizationMark {
+  background: #9b79bd;
+  color: #9b79bd;
+}
+
+@keyframes drawGrowth {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes detailReveal {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes trunkRise {
+  from {
+    transform: scaleY(0.08);
+    opacity: 0.2;
+  }
+
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes auraBreathe {
+  0%,
+  100% {
+    transform: scale(0.96);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes canopyRustle {
+  from {
+    transform: translate(-2px, 1px) scale(0.98);
+  }
+
+  to {
+    transform: translate(3px, -2px) scale(1.03);
+  }
+}
+
+@keyframes sunPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes cloudDrift {
+  from {
+    transform: translateX(-4px);
+  }
+
+  to {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes rainFall {
+  from {
+    stroke-dashoffset: 17;
+    transform: translateY(-4px);
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes soilGlow {
+  0%,
+  100% {
+    transform: scale(0.7);
+  }
+
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+@keyframes leafSway {
+  from {
+    transform: rotate(-4deg) scale(0.96);
+  }
+
+  to {
+    transform: rotate(5deg) scale(1.04);
+  }
+}
+
+@keyframes leafVeinSway {
+  from {
+    transform: rotate(-2deg);
+  }
+
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes fruitPulse {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.96);
+  }
+
+  50% {
+    transform: translateY(2px) scale(1.08);
+  }
+}
+
+@keyframes fruitStemSway {
+  from {
+    transform: rotate(-3deg);
+  }
+
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes seedWake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 @media (max-width: 520px) {
+  .frame::after {
+    bottom: 95px;
+  }
+
   .caption {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     line-height: 1.3;
   }
 
-  .caption span:nth-child(3) {
+  .dimensionDetail {
+    top: 10px;
+    left: 10px;
+    width: min(190px, calc(100% - 20px));
+    min-height: 74px;
+    padding: 10px 12px 9px 15px;
+  }
+
+  .dimensionDetail b {
+    font-size: 26px;
+  }
+
+  .legendButton {
+    height: 46px;
+  }
+
+  .legendButton:nth-child(3) {
     border-right: 0;
   }
 
-  .caption span:nth-child(-n + 3) {
-    border-bottom: 1px solid #e8eeea;
+  .legendButton:nth-child(-n + 3) {
+    border-bottom: 1px solid #29271f;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .canopyAura,
+  .sunAura,
   .weather,
-  .roots,
-  .canopyBranches,
-  .rings,
-  .leaves,
-  .fruits {
+  .rain,
+  .soilParticles circle,
+  .root,
+  .branch,
+  .canopyMasses ellipse,
+  .trunk,
+  .leaf ellipse,
+  .leaf path,
+  .fruit circle,
+  .fruit path,
+  .seeds,
+  .dimensionDetail {
+    animation: none;
+  }
+
+  .scene {
+    transform: none;
     transition: none;
+  }
+
+  .root,
+  .branch {
+    stroke-dashoffset: 0;
   }
 }
