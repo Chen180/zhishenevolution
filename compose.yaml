@@ -12,6 +12,12 @@ services:
       HOSTNAME: 0.0.0.0
       PORT: "3000"
       TZ: "${TZ:-Asia/Shanghai}"
+      LLM_API_KEY: "${LLM_API_KEY:-}"
+      LLM_BASE_URL: "${LLM_BASE_URL:-}"
+      LLM_MODEL: "${LLM_MODEL:-}"
+      LLM_TIMEOUT_MS: "${LLM_TIMEOUT_MS:-12000}"
+      LLM_RATE_LIMIT_MAX: "${LLM_RATE_LIMIT_MAX:-5}"
+      LLM_RATE_LIMIT_WINDOW_MS: "${LLM_RATE_LIMIT_WINDOW_MS:-600000}"
     volumes:
       - app_data:/app/data
     expose:

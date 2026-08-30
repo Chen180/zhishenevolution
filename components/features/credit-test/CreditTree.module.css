@@ -1,0 +1,72 @@
+.frame {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #f7faf8;
+  border: 1px solid #dce5df;
+  border-radius: 8px;
+}
+
+.tree {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 24 / 25;
+}
+
+.weather,
+.roots,
+.canopyBranches,
+.rings,
+.leaves,
+.fruits {
+  transition: opacity 240ms ease;
+}
+
+.caption {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid #dce5df;
+  color: #65706a;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+}
+
+.caption span {
+  min-width: 0;
+  padding: 13px 4px;
+  border-right: 1px solid #e8eeea;
+}
+
+.caption span:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 520px) {
+  .caption {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    line-height: 1.3;
+  }
+
+  .caption span:nth-child(3) {
+    border-right: 0;
+  }
+
+  .caption span:nth-child(-n + 3) {
+    border-bottom: 1px solid #e8eeea;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather,
+  .roots,
+  .canopyBranches,
+  .rings,
+  .leaves,
+  .fruits {
+    transition: none;
+  }
+}

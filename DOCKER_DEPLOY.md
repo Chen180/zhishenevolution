@@ -167,6 +167,29 @@ docker compose config
 3. 在应用启动阶段校验。
 4. 更新项目文档。
 
+### 可选：启用测评的大模型解读
+
+信用测评不依赖大模型也能完成评分和初步判断。需要启用大模型辅助解读时，
+在服务器 `.env` 追加 OpenAI 兼容接口配置：
+
+```bash
+LLM_API_KEY='your-secret-key'
+LLM_BASE_URL='https://api.example.com/v1'
+LLM_MODEL='your-model-name'
+LLM_TIMEOUT_MS='12000'
+LLM_RATE_LIMIT_MAX='5'
+LLM_RATE_LIMIT_WINDOW_MS='600000'
+```
+
+修改后重新创建应用容器：
+
+```bash
+docker compose up -d --build --remove-orphans
+```
+
+不要把填写了密钥的 `.env` 提交到 Git。公开测评接口会按访问来源限制
+大模型调用频率；超出限制时自动返回规则解读。
+
 ## 8. 数据备份
 
 创建备份目录并复制应用数据：
