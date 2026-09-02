@@ -140,37 +140,37 @@ const legendItems: LegendItem[] = [
   {
     id: "label",
     label: "叶片",
-    color: "#d2a34c",
+    color: "#d9ad57",
     markClass: styles.labelMark,
   },
   {
     id: "time",
     label: "年轮",
-    color: "#9a6a3b",
+    color: "#6e98aa",
     markClass: styles.timeMark,
   },
   {
     id: "environment",
     label: "风雨",
-    color: "#5f9ca8",
+    color: "#b9684d",
     markClass: styles.environmentMark,
   },
   {
     id: "personality",
     label: "根系",
-    color: "#c88950",
+    color: "#8d78a0",
     markClass: styles.personalityMark,
   },
   {
     id: "social",
     label: "树冠",
-    color: "#789b45",
+    color: "#7fa06d",
     markClass: styles.socialMark,
   },
   {
     id: "civilization",
     label: "果实",
-    color: "#9b79bd",
+    color: "#e0b84f",
     markClass: styles.civilizationMark,
   },
 ];

@@ -50,7 +50,7 @@ export const CREDIT_DIMENSIONS: Record<
       "在未来30天完成一项可公开验证的代表成果",
       "减少频繁更换方向，为一个专业标签持续积累证据",
     ],
-    color: "#2f855a",
+    color: "#d9ad57",
   },
   time: {
     id: "time",
@@ -67,7 +67,7 @@ export const CREDIT_DIMENSIONS: Record<
       "把长期目标拆成每周可持续的最小行动",
       "每月盘点一次能力、作品、资源和关系的新增资产",
     ],
-    color: "#b7791f",
+    color: "#6e98aa",
   },
   environment: {
     id: "environment",
@@ -84,7 +84,7 @@ export const CREDIT_DIMENSIONS: Record<
       "为最重要的不确定性准备一个可执行的替代方案",
       "对最近一次挫折做复盘，并形成一条新的行为规则",
     ],
-    color: "#287c8e",
+    color: "#b9684d",
   },
   personality: {
     id: "personality",
@@ -101,7 +101,7 @@ export const CREDIT_DIMENSIONS: Record<
       "主动完成一项无人监督但已经承诺的事情",
       "出现失误时先确认责任，再提出修复方案和完成时间",
     ],
-    color: "#85543a",
+    color: "#8d78a0",
   },
   social: {
     id: "social",
@@ -118,7 +118,7 @@ export const CREDIT_DIMENSIONS: Record<
       "完成合作后沉淀结果，并邀请对方给出真实反馈",
       "定期维护少量长期关系，不只在需要机会时联系",
     ],
-    color: "#3269a8",
+    color: "#7fa06d",
   },
   civilization: {
     id: "civilization",
@@ -136,7 +136,7 @@ export const CREDIT_DIMENSIONS: Record<
       "选择一个超越短期个人回报的长期贡献主题",
       "记录你的方法被谁使用、如何改进以及产生了什么影响",
     ],
-    color: "#c24d36",
+    color: "#e0b84f",
   },
 };
 

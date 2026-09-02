@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ArrowLeft,
   ArrowRight,
   Check,
   ChevronLeft,
@@ -734,17 +733,6 @@ export function CreditTest() {
 
   return (
     <div className={styles.page}>
-      <nav className={styles.topbar} aria-label="测评导航">
-        <a className={styles.brand} href="/six-credit/index.html">
-          <span>六维信用</span>
-          <small>生命树测评</small>
-        </a>
-        <a className={styles.backLink} href="/six-credit/index.html">
-          <ArrowLeft aria-hidden="true" size={16} />
-          返回生命树
-        </a>
-      </nav>
-
       {phase === "intro" ? (
         <Intro hasProgress={hasProgress} onStart={startQuiz} />
       ) : null}

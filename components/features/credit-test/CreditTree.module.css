@@ -10,7 +10,7 @@
   overflow: hidden;
   background: #020505;
   border: 1px solid #50432d;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow:
     0 24px 60px rgb(0 0 0 / 18%),
     inset 0 0 48px rgb(217 164 75 / 8%);
@@ -276,33 +276,33 @@
 }
 
 .labelMark {
-  background: #d2a34c;
-  color: #d2a34c;
+  background: var(--color-dim-label);
+  color: var(--color-dim-label);
 }
 
 .timeMark {
-  background: #9a6a3b;
-  color: #9a6a3b;
+  background: var(--color-dim-time);
+  color: var(--color-dim-time);
 }
 
 .environmentMark {
-  background: #5f9ca8;
-  color: #5f9ca8;
+  background: var(--color-dim-env);
+  color: var(--color-dim-env);
 }
 
 .personalityMark {
-  background: #c88950;
-  color: #c88950;
+  background: var(--color-dim-persona);
+  color: var(--color-dim-persona);
 }
 
 .socialMark {
-  background: #789b45;
-  color: #789b45;
+  background: var(--color-dim-social);
+  color: var(--color-dim-social);
 }
 
 .civilizationMark {
-  background: #9b79bd;
-  color: #9b79bd;
+  background: var(--color-dim-civilization);
+  color: var(--color-dim-civilization);
 }
 
 @keyframes drawGrowth {
