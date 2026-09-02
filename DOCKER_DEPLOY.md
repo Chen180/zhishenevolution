@@ -170,7 +170,7 @@ docker compose config
 ### 可选：启用测评的大模型解读
 
 信用测评不依赖大模型也能完成评分和初步判断。需要启用大模型辅助解读时，
-在服务器 `.env` 追加 OpenAI 兼容接口配置：
+在服务器 `.env` 追加 OpenAI 兼容接口配置（Kimi、DeepSeek 等均兼容）：
 
 ```bash
 LLM_API_KEY='your-secret-key'
@@ -179,6 +179,15 @@ LLM_MODEL='your-model-name'
 LLM_TIMEOUT_MS='12000'
 LLM_RATE_LIMIT_MAX='5'
 LLM_RATE_LIMIT_WINDOW_MS='600000'
+```
+
+可选：配置备用模型。主模型请求失败（超时、限流、服务异常）时自动
+切换到备用模型重试一次：
+
+```bash
+LLM_BACKUP_API_KEY='your-backup-key'
+LLM_BACKUP_BASE_URL='https://api.backup-example.com/v1'
+LLM_BACKUP_MODEL='your-backup-model-name'
 ```
 
 修改后重新创建应用容器：

@@ -44,8 +44,11 @@ function readPositiveNumber(value: string | undefined, fallback: number) {
 }
 
 function getClientKey(request: Request) {
+  // Caddy 会把真实客户端 IP 追加到 X-Forwarded-For 末尾；
+  // 头部前面的值可以被请求方伪造，只能取最后一个。
   const forwarded = request.headers.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || "anonymous";
+  const realClient = forwarded?.split(",").pop()?.trim();
+  return realClient || "anonymous";
 }
 
 function canUseAi(request: Request) {

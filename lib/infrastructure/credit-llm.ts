@@ -34,10 +34,10 @@ interface LlmConfig {
   timeoutMs: number;
 }
 
-function getLlmConfig(): LlmConfig | null {
-  const apiKey = process.env.LLM_API_KEY?.trim();
-  const baseUrl = process.env.LLM_BASE_URL?.trim();
-  const model = process.env.LLM_MODEL?.trim();
+function readLlmConfig(prefix: "LLM_" | "LLM_BACKUP_"): LlmConfig | null {
+  const apiKey = process.env[`${prefix}API_KEY`]?.trim();
+  const baseUrl = process.env[`${prefix}BASE_URL`]?.trim();
+  const model = process.env[`${prefix}MODEL`]?.trim();
 
   if (!apiKey || !baseUrl || !model) {
     return null;
@@ -49,7 +49,7 @@ function getLlmConfig(): LlmConfig | null {
     parsedUrl.hostname !== "localhost" &&
     parsedUrl.hostname !== "127.0.0.1"
   ) {
-    throw new Error("LLM_BASE_URL must use HTTPS outside localhost.");
+    throw new Error(`${prefix}BASE_URL must use HTTPS outside localhost.`);
   }
 
   const configuredTimeout = Number(process.env.LLM_TIMEOUT_MS ?? 12_000);
@@ -63,6 +63,23 @@ function getLlmConfig(): LlmConfig | null {
     model,
     timeoutMs,
   };
+}
+
+/**
+ * 主备模型配置：`LLM_*` 为主，`LLM_BACKUP_*` 为备。
+ * 单个配置非法时跳过该配置，不影响另一家。
+ */
+function getLlmConfigs(): LlmConfig[] {
+  const configs: LlmConfig[] = [];
+  for (const prefix of ["LLM_", "LLM_BACKUP_"] as const) {
+    try {
+      const config = readLlmConfig(prefix);
+      if (config) configs.push(config);
+    } catch {
+      // 忽略非法配置，交给其余 provider。
+    }
+  }
+  return configs;
 }
 
 function extractJson(content: string) {
@@ -155,8 +172,19 @@ async function requestInterpretation(
 }
 
 export function getCreditInterpreter(): CreditInterpreter | undefined {
-  const config = getLlmConfig();
-  if (!config) return undefined;
+  const configs = getLlmConfigs();
+  if (configs.length === 0) return undefined;
 
-  return (assessment) => requestInterpretation(assessment, config);
+  // 按主备顺序尝试，全部失败时抛错，由上层回退到规则解读。
+  return async (assessment) => {
+    let lastError: unknown;
+    for (const config of configs) {
+      try {
+        return await requestInterpretation(assessment, config);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError;
+  };
 }
