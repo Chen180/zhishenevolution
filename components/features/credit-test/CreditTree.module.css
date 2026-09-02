@@ -516,3 +516,26 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* 打印时冻结动画到最终状态，否则根系和枝干会停在未绘制完成的一帧 */
+@media print {
+  .frame {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .frame,
+  .frame * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .scene {
+    transform: none;
+  }
+
+  .root,
+  .branch {
+    stroke-dashoffset: 0;
+  }
+}

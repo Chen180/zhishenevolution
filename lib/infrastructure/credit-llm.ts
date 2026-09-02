@@ -32,6 +32,7 @@ interface LlmConfig {
   baseUrl: string;
   model: string;
   timeoutMs: number;
+  temperature: number;
 }
 
 function readLlmConfig(prefix: "LLM_" | "LLM_BACKUP_"): LlmConfig | null {
@@ -57,11 +58,18 @@ function readLlmConfig(prefix: "LLM_" | "LLM_BACKUP_"): LlmConfig | null {
     ? Math.min(Math.max(configuredTimeout, 3_000), 30_000)
     : 12_000;
 
+  // 部分推理模型（如 kimi-k3）只接受 temperature=1，可用环境变量覆盖。
+  const configuredTemperature = Number(process.env.LLM_TEMPERATURE ?? 0.35);
+  const temperature = Number.isFinite(configuredTemperature)
+    ? Math.min(Math.max(configuredTemperature, 0), 2)
+    : 0.35;
+
   return {
     apiKey,
     baseUrl: baseUrl.replace(/\/+$/, ""),
     model,
     timeoutMs,
+    temperature,
   };
 }
 
@@ -140,7 +148,12 @@ async function requestInterpretation(
     },
     body: JSON.stringify({
       model: config.model,
-      temperature: 0.35,
+      temperature: config.temperature,
+      // Kimi 思考模型（k2.6/k3）对短任务会思考过久导致超时，
+      // 解读是短文本任务，关闭思考模式；其他服务商不带此字段。
+      ...(config.model.startsWith("kimi-")
+        ? { thinking: { type: "disabled" } }
+        : {}),
       messages: [
         {
           role: "system",
@@ -157,7 +170,10 @@ async function requestInterpretation(
   });
 
   if (!response.ok) {
-    throw new Error(`Language model request failed with ${response.status}.`);
+    const errorBody = (await response.text().catch(() => "")).slice(0, 500);
+    throw new Error(
+      `Language model request failed with ${response.status}: ${errorBody}`,
+    );
   }
 
   const responseText = await response.text();
@@ -183,6 +199,10 @@ export function getCreditInterpreter(): CreditInterpreter | undefined {
         return await requestInterpretation(assessment, config);
       } catch (error) {
         lastError = error;
+        console.warn(
+          `[credit-llm] provider ${config.baseUrl} model ${config.model} failed:`,
+          error instanceof Error ? error.message : error,
+        );
       }
     }
     throw lastError;

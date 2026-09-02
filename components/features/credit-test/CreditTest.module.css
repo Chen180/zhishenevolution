@@ -968,10 +968,52 @@
   }
 }
 
+/* 打印水印默认隐藏，只在打印时显示 */
+.printBrand,
+.printWatermark,
+.printWatermarkLayer {
+  display: none;
+}
+
 @media print {
   .page {
     padding-top: 0;
     background: #ffffff;
+  }
+
+  .printBrand,
+  .printWatermark {
+    display: block;
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: #5c5142;
+  }
+
+  .printWatermark {
+    margin: 14px 0 0;
+  }
+
+  /* 整页斜向平铺水印：fixed 定位会在每个打印页重复 */
+  .printWatermarkLayer {
+    position: fixed;
+    inset: -25%;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-content: space-evenly;
+    justify-items: center;
+    transform: rotate(-28deg);
+    pointer-events: none;
+  }
+
+  .printWatermarkLayer span {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    white-space: nowrap;
+    color: rgba(92, 81, 66, 0.09);
   }
 
   .resultFooter > div {

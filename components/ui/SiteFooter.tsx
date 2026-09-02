@@ -78,15 +78,35 @@ export function SiteFooter() {
           <p className="m-0">何明轩 © 2026 · Framework 3.0</p>
         </div>
       </div>
-      <div className="border-t border-line-dark py-5 text-center text-[12px] text-muted-light">
-        <a
-          href="https://beian.miit.gov.cn"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition-colors hover:text-gold-light"
-        >
-          京ICP备2026057291号-2
-        </a>
+      <div className="border-t border-line-dark py-5">
+        <div className="container-site flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-muted-light">
+          <Link
+            href="/copyright"
+            className="transition-colors hover:text-gold-light"
+          >
+            版权声明
+          </Link>
+          <Link
+            href="/disclaimer"
+            className="transition-colors hover:text-gold-light"
+          >
+            免责声明
+          </Link>
+          <Link
+            href="/privacy"
+            className="transition-colors hover:text-gold-light"
+          >
+            隐私说明
+          </Link>
+          <a
+            href="https://beian.miit.gov.cn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-gold-light"
+          >
+            京ICP备2026057291号-2
+          </a>
+        </div>
       </div>
     </footer>
   );

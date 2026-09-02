@@ -174,12 +174,17 @@ docker compose config
 
 ```bash
 LLM_API_KEY='your-secret-key'
-LLM_BASE_URL='https://api.example.com/v1'
-LLM_MODEL='your-model-name'
+LLM_BASE_URL='https://api.moonshot.cn/v1'
+LLM_MODEL='kimi-k2.6'
 LLM_TIMEOUT_MS='12000'
+LLM_TEMPERATURE='0.6'
 LLM_RATE_LIMIT_MAX='5'
 LLM_RATE_LIMIT_WINDOW_MS='600000'
 ```
+
+Kimi 参数说明：代码会为 `kimi-*` 模型自动关闭思考模式（解读是短文本
+任务，思考模式容易超过 30 秒超时）。非思考模式下 `kimi-k2.6` 只接受
+`temperature=0.6`；DeepSeek 等服务商可用 `0.35` 获得更克制的输出。
 
 可选：配置备用模型。主模型请求失败（超时、限流、服务异常）时自动
 切换到备用模型重试一次：

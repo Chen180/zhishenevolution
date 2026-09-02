@@ -440,6 +440,15 @@ function ResultView({
 
   return (
     <main className={styles.result}>
+      {/* 打印专用：整页斜向平铺水印，屏幕上不显示 */}
+      <div className={styles.printWatermarkLayer} aria-hidden="true">
+        {Array.from({ length: 15 }, (_, index) => (
+          <span key={index}>智神进化纪 · 何明轩</span>
+        ))}
+      </div>
+      <p className={styles.printBrand}>
+        智神进化纪 · 何明轩 · 六维信用生命树测评报告
+      </p>
       <header className={styles.resultHeader}>
         <div>
           <p className={styles.eyebrow}>你的信用生命树</p>
@@ -548,6 +557,9 @@ function ResultView({
       <footer className={styles.resultFooter}>
         <p>
           这是一项自我观察工具，不属于社会征信，也不构成心理、医疗、法律或职业诊断。
+        </p>
+        <p className={styles.printWatermark}>
+          智神进化纪 zhishenevo.com ｜ 何明轩 · 保留所有权利
         </p>
         <div>
           <button
