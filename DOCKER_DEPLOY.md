@@ -116,6 +116,26 @@ docker compose ps
 docker image prune -f
 ```
 
+### 可选：推送 Gitee 后自动部署
+
+`deploy/auto-deploy.sh` 会检查远端 `main` 是否有新提交，有则自动拉取
+并滚动重建，没有则直接退出。在服务器上配置 cron 定期执行即可：
+
+```bash
+chmod +x deploy/auto-deploy.sh
+crontab -e
+```
+
+添加一行（每 2 分钟检查一次，日志写入 `/var/log`）：
+
+```cron
+*/2 * * * * /path/to/project/deploy/auto-deploy.sh >> /var/log/zhishenevo-deploy.log 2>&1
+```
+
+前提：服务器上的仓库能免密拉取（公开仓库直接用 HTTPS；私有仓库需
+配置 deploy key 或访问令牌）。重建期间会有几十秒的服务中断，需要
+零中断部署时应改用 webhook 或 CI 方案。
+
 ## 6. 启停
 
 停止：
