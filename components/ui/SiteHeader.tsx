@@ -28,7 +28,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 print:hidden ${
         isScrolled || isMenuOpen
           ? "border-line-dark bg-ink/85 backdrop-blur-md"
           : "border-transparent bg-ink/60 backdrop-blur-sm"

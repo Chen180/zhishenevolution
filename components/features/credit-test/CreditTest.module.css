@@ -971,6 +971,7 @@
 /* 打印水印默认隐藏，只在打印时显示 */
 .printBrand,
 .printWatermark,
+.printNote,
 .printWatermarkLayer {
   display: none;
 }
@@ -982,7 +983,8 @@
   }
 
   .printBrand,
-  .printWatermark {
+  .printWatermark,
+  .printNote {
     display: block;
     margin: 0 0 18px;
     text-align: center;
@@ -993,6 +995,13 @@
 
   .printWatermark {
     margin: 14px 0 0;
+  }
+
+  .printNote {
+    margin: 6px 0 0;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: #8a7f6d;
   }
 
   /* 整页斜向平铺水印：fixed 定位会在每个打印页重复 */
@@ -1023,11 +1032,17 @@
   .result {
     width: 100%;
     padding: 0;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
+  /* 所有结果区块分页时整体移动，避免内容被截断 */
+  .resultHeader,
   .treeSection,
   .interpretationSection,
-  .nextSection {
+  .nextSection,
+  .legacyBand,
+  .resultFooter {
     break-inside: avoid;
   }
 }

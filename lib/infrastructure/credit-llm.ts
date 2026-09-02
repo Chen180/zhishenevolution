@@ -149,6 +149,8 @@ async function requestInterpretation(
     body: JSON.stringify({
       model: config.model,
       temperature: config.temperature,
+      // 强制合法 JSON 输出，避免模型偶发格式错误导致解读降级
+      response_format: { type: "json_object" },
       // Kimi 思考模型（k2.6/k3）对短任务会思考过久导致超时，
       // 解读是短文本任务，关闭思考模式；其他服务商不带此字段。
       ...(config.model.startsWith("kimi-")

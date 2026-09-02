@@ -561,6 +561,9 @@ function ResultView({
         <p className={styles.printWatermark}>
           智神进化纪 zhishenevo.com ｜ 何明轩 · 保留所有权利
         </p>
+        <p className={styles.printNote}>
+          本报告仅反映本次作答，只代表当前测试结果，仅供参考。
+        </p>
         <div>
           <button
             type="button"

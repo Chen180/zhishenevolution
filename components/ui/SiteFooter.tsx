@@ -18,7 +18,7 @@ const FOOTER_NAV = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line-dark bg-ink text-text-light">
+    <footer className="border-t border-line-dark bg-ink text-text-light print:hidden">
       <div className="container-site grid grid-cols-[1.4fr_1fr_1fr] gap-10 py-14 max-[820px]:grid-cols-1 max-[820px]:gap-8">
         <div>
           <p className="m-0 max-w-[420px] font-display text-[21px] leading-[1.7]">
