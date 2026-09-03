@@ -1,7 +1,6 @@
 # Docker 部署说明
 
-架构规则见 [ARCHITECTURE.md](./ARCHITECTURE.md)。本文只说明服务器部署
-和日常运维。
+本文只说明服务器部署和日常运维。
 
 生产环境运行两个容器：
 

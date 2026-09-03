@@ -20,7 +20,8 @@
 - Docker Compose + Caddy
 - `/api/health` 健康检查
 
-架构边界见 [ARCHITECTURE.md](./ARCHITECTURE.md)。
+代码边界：`lib/domain` 只放纯业务规则，`lib/application` 编排用例，
+外部集成集中在 `lib/infrastructure`，Route Handler 只做校验与响应转换。
 
 ## 本地开发
 

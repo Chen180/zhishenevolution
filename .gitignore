@@ -27,6 +27,10 @@
 next-env.d.ts
 .vercel
 
+# Editor and IDE local state
+/.vs/
+/.idea/
+
 # Logs and local files
 *.log
 *.pem

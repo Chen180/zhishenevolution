@@ -8,8 +8,8 @@ writing Next.js code, and follow all local deprecation notices.
 
 ## Project architecture
 
-- Read `ARCHITECTURE.md` before changing dependencies, module boundaries,
-  storage, authentication, background jobs, or deployment.
+- Record an ADR in `docs/adr/` before changing dependencies, module
+  boundaries, storage, authentication, background jobs, or deployment.
 - Keep Node.js 22, npm lockfile installs, Next.js App Router, strict
   TypeScript, standalone Docker builds, Docker Compose, and Caddy as the
   default baseline.
