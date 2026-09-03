@@ -1,24 +1,31 @@
 #!/usr/bin/env bash
-# 自动部署：轮询 Gitee 远端，main 有新提交时拉取并滚动重建。
+# 自动部署：检测 ACR 镜像是否有新版本，有则拉取并滚动重启。
+# 镜像由本机 deploy/publish.sh 构建推送，服务器不构建、不需要 git 仓库。
 # 由 cron 定期执行，例如每 2 分钟一次：
 #   */2 * * * * /path/to/project/deploy/auto-deploy.sh >> /var/log/zhishenevo-deploy.log 2>&1
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-git fetch --quiet origin main
+image="$(docker compose config --images app | head -1)"
+if [ -z "$image" ]; then
+  echo "[$(date '+%F %T')] failed to resolve app image from compose config" >&2
+  exit 1
+fi
 
-local_rev="$(git rev-parse HEAD)"
-remote_rev="$(git rev-parse origin/main)"
+before="$(docker image inspect -f '{{.Id}}' "$image" 2>/dev/null || true)"
 
-if [ "$local_rev" = "$remote_rev" ]; then
+docker compose pull --quiet app
+
+after="$(docker image inspect -f '{{.Id}}' "$image")"
+
+if [ "$before" = "$after" ]; then
   exit 0
 fi
 
-echo "[$(date '+%F %T')] new commit detected: $local_rev -> $remote_rev"
+echo "[$(date '+%F %T')] new image detected for $image"
 
-git pull --ff-only origin main
-docker compose up -d --build --remove-orphans
+docker compose up -d --remove-orphans
 docker image prune -f
 
-echo "[$(date '+%F %T')] deploy finished: $remote_rev"
+echo "[$(date '+%F %T')] deploy finished: $after"

@@ -31,7 +31,19 @@
 应用端口 `3000` 不对公网开放。
 
 服务器只需要 Docker Engine 和 Docker Compose，不需要安装 Node.js、
-npm、Nginx 或 PM2。
+npm、Nginx 或 PM2。镜像不在服务器上构建，对内存要求很低。
+
+### 镜像仓库（ACR）
+
+镜像通过阿里云容器镜像服务（ACR）个人版中转：
+
+1. 开通 ACR 个人版，创建命名空间和镜像仓库，代码源选择「本地仓库」。
+2. 在 ACR 控制台「访问凭证」中设置固定密码。
+3. 本机和 ECS 分别登录，ECS 与 ACR 选同地域时可走内网地址：
+
+```bash
+docker login --username=<ACR账号> registry.cn-<地域>.aliyuncs.com
+```
 
 确认 Docker：
 
@@ -67,6 +79,8 @@ deploy/Caddyfile
 
 ## 4. 首次部署
 
+先在本机构建并推送镜像（见第 5 节「发布」），再在服务器执行：
+
 ```bash
 bash docker-deploy.sh
 ```
@@ -75,9 +89,9 @@ bash docker-deploy.sh
 
 1. 检查 Docker 和 Compose。
 2. 询问域名或 `:80`。
-3. 询问 Docker 镜像名。
+3. 询问 ACR 镜像地址。
 4. 创建权限受限的 `.env`。
-5. 构建镜像并启动容器。
+5. 拉取镜像并启动容器（服务器不构建）。
 
 查看状态：
 
@@ -99,41 +113,45 @@ curl https://your-domain.example/api/health
 
 健康接口只能返回非敏感状态。
 
-## 5. 更新
+## 5. 发布与自动更新
 
-更新前先备份数据和 `.env`。
-
-```bash
-git pull --ff-only
-docker compose up -d --build --remove-orphans
-docker compose ps
-```
-
-确认健康后清理未使用镜像：
+发布在本机完成（一次推送，两处）：
 
 ```bash
-docker image prune -f
+git push origin main        # 代码到 Gitee（存档）
+bash deploy/publish.sh      # 镜像到 ACR（部署）
 ```
 
-### 可选：推送 Gitee 后自动部署
+`publish.sh` 会用当前 git 短哈希和 `latest` 两个 tag 推送镜像。
 
-`deploy/auto-deploy.sh` 会检查远端 `main` 是否有新提交，有则自动拉取
-并滚动重建，没有则直接退出。在服务器上配置 cron 定期执行即可：
+服务器上的 cron 每 2 分钟检测一次 `latest` 镜像，发现新版本会自动
+拉取并滚动重启（`deploy/auto-deploy.sh`）：
 
 ```bash
 chmod +x deploy/auto-deploy.sh
 crontab -e
 ```
 
-添加一行（每 2 分钟检查一次，日志写入 `/var/log`）：
-
 ```cron
 */2 * * * * /path/to/project/deploy/auto-deploy.sh >> /var/log/zhishenevo-deploy.log 2>&1
 ```
 
-前提：服务器上的仓库能免密拉取（公开仓库直接用 HTTPS；私有仓库需
-配置 deploy key 或访问令牌）。重建期间会有几十秒的服务中断，需要
-零中断部署时应改用 webhook 或 CI 方案。
+服务器上的 `APP_IMAGE` 必须与本机推送的 ACR 地址一致。重启过程只有
+几十秒，期间服务短暂中断。
+
+需要回滚时，在服务器指定历史版本 tag 重建：
+
+```bash
+# .env 中 IMAGE_TAG 改为目标 git 短哈希后：
+docker compose pull && docker compose up -d
+```
+
+发布后确认健康：
+
+```bash
+docker compose ps
+curl https://your-domain.example/api/health
+```
 
 ## 6. 启停
 

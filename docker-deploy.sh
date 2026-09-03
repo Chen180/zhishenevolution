@@ -34,10 +34,10 @@ if [[ ! -f .env ]]; then
       tr '[:upper:]_' '[:lower:]-' |
       sed 's/[^a-z0-9.-]/-/g'
   )"
-  read -r -p "Docker image name [$default_image]: " app_image
-  app_image="${app_image:-$default_image}"
+  read -r -p "ACR image address (e.g. registry.cn-hangzhou.aliyuncs.com/ns/$default_image): " app_image
+  app_image="${app_image:?ACR image address is required for pull-based deploy.}"
   [[ "$app_image" =~ ^[a-z0-9][a-z0-9._/-]*$ ]] ||
-    fail "Docker image name is invalid."
+    fail "ACR image address is invalid."
 
   require_safe_env_value SITE_ADDRESS "$site_address"
   require_safe_env_value APP_IMAGE "$app_image"
@@ -48,7 +48,7 @@ if [[ ! -f .env ]]; then
     printf "HTTP_PORT='80'\n"
     printf "HTTPS_PORT='443'\n"
     printf "APP_IMAGE='%s'\n" "$app_image"
-    printf "IMAGE_TAG='local'\n"
+    printf "IMAGE_TAG='latest'\n"
     printf "TZ='Asia/Shanghai'\n"
   } >.env
   chmod 600 .env
@@ -59,7 +59,8 @@ else
 fi
 
 docker compose config --quiet
-docker compose up -d --build --remove-orphans
+docker compose pull
+docker compose up -d --remove-orphans
 docker compose ps
 
 printf '\nDeployment finished. Run "docker compose logs -f" to follow logs.\n'
