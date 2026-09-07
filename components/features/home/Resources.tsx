@@ -73,24 +73,48 @@ export function Resources() {
             ))}
           </Reveal>
           <Reveal className="border-t border-line-dark">
-            <Link
-              href="/people"
-              className="grid min-h-[118px] grid-cols-[42px_1fr] items-center gap-4 border-b border-line-dark py-[22px] transition duration-160 hover:bg-white/[0.025] hover:pl-[10px] sm:grid-cols-[54px_1fr_auto]"
-            >
-              <span className="font-figure text-[13px] text-gold-light">01</span>
-              <span>
-                <span className="block text-[15px] font-bold">
-                  时代人物案例对照表
+            {[
+              {
+                index: "01",
+                title: "时代人物案例对照表",
+                description: "于东来、王计兵、李亚鹏、张国伟等人物的六维证据分析",
+                href: "/people",
+              },
+              {
+                index: "02",
+                title: "世界顶尖 100 个思维模型",
+                description: "认知升级完全指南：七个层级、100 个模型的定义、原理与落地方法",
+                href: "/models",
+              },
+              {
+                index: "03",
+                title: "长文转图工具",
+                description: "粘贴超长文案，本地一键生成高清 PNG 长图或分页图片",
+                href: "/text-to-image",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="grid min-h-[118px] grid-cols-[42px_1fr] items-center gap-4 border-b border-line-dark py-[22px] transition duration-160 hover:bg-white/[0.025] hover:pl-[10px] sm:grid-cols-[54px_1fr_auto]"
+              >
+                <span className="font-figure text-[13px] text-gold-light">
+                  {item.index}
                 </span>
-                <span className="mt-[6px] block text-xs text-muted-light">
-                  于东来、王计兵、李亚鹏、张国伟等人物的六维证据分析
+                <span>
+                  <span className="block text-[15px] font-bold">
+                    {item.title}
+                  </span>
+                  <span className="mt-[6px] block text-xs text-muted-light">
+                    {item.description}
+                  </span>
                 </span>
-              </span>
-              <span className="hidden items-center gap-[7px] text-xs font-bold text-gold-light sm:inline-flex">
-                打开页面
-                <ArrowRight size={15} strokeWidth={1.7} aria-hidden />
-              </span>
-            </Link>
+                <span className="hidden items-center gap-[7px] text-xs font-bold text-gold-light sm:inline-flex">
+                  打开页面
+                  <ArrowRight size={15} strokeWidth={1.7} aria-hidden />
+                </span>
+              </Link>
+            ))}
           </Reveal>
         </div>
       </div>

@@ -2,7 +2,8 @@
 .gitignore
 .next
 node_modules
-data
+data/*
+!data/thinking-models.json
 Resource
 coverage
 out

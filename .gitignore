@@ -16,6 +16,7 @@
 # Local data
 /data/*
 !/data/.gitkeep
+!/data/thinking-models.json
 /Resource/
 
 # Environment files

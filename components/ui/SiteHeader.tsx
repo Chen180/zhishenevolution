@@ -10,7 +10,9 @@ const NAV_ITEMS = [
   { label: "六个维度", href: "/#system" },
   { label: "人物案例", href: "/#cases" },
   { label: "人物档案", href: "/people" },
+  { label: "思维模型", href: "/models" },
   { label: "信用测评", href: "/credit-test" },
+  { label: "长文转图", href: "/text-to-image" },
 ];
 
 const MOBILE_NAV_ITEMS = [...NAV_ITEMS, { label: "关于何明轩", href: "/#about" }];
