@@ -44,7 +44,7 @@
 
 .layerNav a {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   padding: 8px 16px;
   border: 1px solid var(--color-line-light);
@@ -56,6 +56,10 @@
   text-decoration: none;
 }
 
+.layerNav a svg {
+  color: var(--layer-color, var(--color-muted-dark));
+}
+
 .layerNav a span {
   color: var(--color-muted-dark);
   font-size: 11px;
@@ -63,7 +67,7 @@
 }
 
 .layerNav a:hover {
-  border-color: var(--color-gold);
+  border-color: var(--layer-color, var(--color-gold));
 }
 
 .layer {
@@ -81,9 +85,23 @@
 }
 
 .layerHeader h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin: 0;
   font-family: var(--font-display);
   font-size: 26px;
+}
+
+.layerBadge {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 16%, var(--color-paper-strong));
+  color: var(--layer-color, var(--color-gold));
+  flex-shrink: 0;
 }
 
 .layerHeader p {
@@ -104,6 +122,7 @@
   gap: 6px;
   padding: 18px 20px;
   border: 1px solid var(--color-line-light);
+  border-left: 3px solid var(--layer-color, var(--color-line-light));
   border-radius: var(--radius-brand);
   background: var(--color-paper-strong);
   text-decoration: none;
@@ -111,11 +130,17 @@
 }
 
 .card:hover {
-  border-color: var(--color-gold);
+  border-color: var(--layer-color, var(--color-gold));
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--layer-color, var(--color-gold));
 }
 
 .cardNumber {
-  color: var(--color-gold);
   font-family: var(--font-figure);
   font-size: 13px;
   letter-spacing: 0.12em;
@@ -173,11 +198,32 @@
 }
 
 .detailHeader {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
+}
+
+.detailLayer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--layer-color, var(--color-gold));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.detailLayer .layerBadge {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.detailLayer .cardNumber {
+  margin-left: 6px;
+  color: var(--color-muted-dark);
 }
 
 .detailHeader h1 {
-  margin: 10px 0 0;
+  margin: 14px 0 0;
   font-family: var(--font-display);
   font-size: 40px;
   line-height: 1.25;
@@ -193,13 +239,72 @@
 .detailDefinition {
   margin: 24px 0 0;
   padding: 18px 22px;
-  border-left: 3px solid var(--color-gold);
+  border-left: 3px solid var(--layer-color, var(--color-gold));
   border-radius: var(--radius-brand);
   background: var(--color-paper-strong);
   color: var(--color-text-dark);
   font-size: 17px;
   font-weight: 700;
   line-height: 1.9;
+}
+
+/* 程序化图解：场景 → 模型 → 方法 */
+
+.diagram {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  margin-bottom: 48px;
+  padding: 22px 24px;
+  border: 1px solid var(--color-line-light);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+}
+
+.diagramNode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.diagramLabel {
+  color: var(--color-muted-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.diagramText {
+  color: var(--color-text-dark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.diagramCore {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 14px 18px;
+  border-radius: var(--radius-brand);
+  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 14%, var(--color-paper));
+  text-align: center;
+}
+
+.diagramCoreText {
+  color: var(--layer-color, var(--color-gold));
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.diagramArrow {
+  align-self: center;
+  flex-shrink: 0;
+  color: var(--color-muted-dark);
 }
 
 .detailSection {
@@ -289,6 +394,149 @@
   color: var(--color-gold);
 }
 
+/* 分享卡片 */
+
+.shareRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.shareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-brand);
+  background: var(--color-green-deep);
+  color: var(--color-text-light);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.shareButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-green-deep) 78%, var(--color-ink));
+}
+
+.shareButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.shareError {
+  color: var(--color-dim-env);
+  font-size: 13px;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.shareCardHost {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  pointer-events: none;
+}
+
+.shareCard {
+  box-sizing: border-box;
+  width: 720px;
+  padding: 52px 56px;
+  background: var(--color-ink-soft);
+  color: var(--color-text-light);
+  font-family: var(--font-sans);
+}
+
+.shareCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-muted-light);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.shareCardName {
+  margin: 36px 0 0;
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1.25;
+}
+
+.shareCardNameEn {
+  margin: 8px 0 0;
+  color: var(--color-muted-light);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+}
+
+.shareCardDivider {
+  width: 56px;
+  height: 3px;
+  margin: 26px 0;
+  border-radius: 2px;
+  background: var(--layer-color, var(--color-gold));
+}
+
+.shareCardDef {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.9;
+}
+
+.shareCardMethods {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shareCardMethods p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--color-muted-light);
+  font-size: 15px;
+}
+
+.shareCardMethods span {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 24%, transparent);
+  color: var(--color-text-light);
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.shareCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line-dark);
+  color: var(--color-muted-light);
+  font-size: 12px;
+}
+
 @media (max-width: 640px) {
   .header h1 {
     font-size: 32px;
@@ -296,5 +544,13 @@
 
   .detailHeader h1 {
     font-size: 30px;
+  }
+
+  .diagram {
+    flex-direction: column;
+  }
+
+  .diagramArrow {
+    transform: rotate(90deg);
   }
 }

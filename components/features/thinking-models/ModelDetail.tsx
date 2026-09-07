@@ -1,20 +1,28 @@
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import {
   getLayerById,
   getModelById,
   type ThinkingModel,
 } from "@/lib/domain/thinking-models";
+import { getLayerVisual } from "./layer-meta";
+import { ModelDiagram } from "./ModelDiagram";
+import { ShareCardButton } from "./ShareCardButton";
 import styles from "./ThinkingModels.module.css";
 
 export function ModelDetail({ model }: { model: ThinkingModel }) {
   const layer = getLayerById(model.layer);
+  const { color, Icon } = getLayerVisual(model.layer);
   const prev = getModelById(model.id - 1);
   const next = getModelById(model.id + 1);
 
   return (
     <div className={styles.page}>
-      <article className={styles.detail}>
+      <article
+        className={styles.detail}
+        style={{ "--layer-color": color } as CSSProperties}
+      >
         <nav className={styles.breadcrumb} aria-label="面包屑">
           <Link href="/models">
             <ArrowLeft size={14} />
@@ -24,15 +32,24 @@ export function ModelDetail({ model }: { model: ThinkingModel }) {
         </nav>
 
         <header className={styles.detailHeader}>
-          <p className={styles.cardNumber}>
-            {String(model.id).padStart(2, "0")} / 100
+          <p className={styles.detailLayer}>
+            <span className={styles.layerBadge}>
+              <Icon size={16} aria-hidden />
+            </span>
+            {layer?.name}
+            <span className={styles.cardNumber}>
+              {String(model.id).padStart(2, "0")} / 100
+            </span>
           </p>
           <h1>{model.name}</h1>
           {model.nameEn ? (
             <p className={styles.detailNameEn}>{model.nameEn}</p>
           ) : null}
           <p className={styles.detailDefinition}>{model.definition}</p>
+          <ShareCardButton model={model} />
         </header>
+
+        <ModelDiagram model={model} />
 
         <section className={styles.detailSection}>
           <h2>核心原理</h2>
