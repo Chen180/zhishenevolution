@@ -11,13 +11,15 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run lint && npm run typecheck && npm run test",
-    "verify": "npm run check && npm run build"
+    "verify": "npm run check && npm run build",
+    "build:models": "node scripts/build-thinking-models.mjs"
   },
   "engines": {
     "node": "22.x",
     "npm": ">=10"
   },
   "dependencies": {
+    "html-to-image": "^1.11.13",
     "lucide-react": "^1.37.0",
     "next": "16.3.2",
     "react": "19.2.4",
