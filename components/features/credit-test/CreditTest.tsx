@@ -41,6 +41,8 @@ interface StoredProgress {
   answers: CreditAnswers;
   currentIndex: number;
   legacyNote: string;
+  phase?: "guide" | "quiz" | "result";
+  report?: CreditAssessmentReport;
 }
 
 type ApiResponse =
@@ -65,6 +67,12 @@ const generatingMessages = [
   "正在寻找你已经留下的果实……",
 ] as const;
 
+function isStoredReport(value: unknown): value is CreditAssessmentReport {
+  if (!value || typeof value !== "object") return false;
+  const report = value as Partial<CreditAssessmentReport>;
+  return Boolean(report.assessment && report.interpretation);
+}
+
 function readStoredProgress(): StoredProgress | null {
   if (typeof window === "undefined") return null;
 
@@ -81,6 +89,14 @@ function readStoredProgress(): StoredProgress | null {
       return null;
     }
 
+    const phase =
+      value.phase === "guide" ||
+      value.phase === "quiz" ||
+      value.phase === "result"
+        ? value.phase
+        : undefined;
+    const report = isStoredReport(value.report) ? value.report : undefined;
+
     return {
       answers: value.answers,
       currentIndex: Math.min(
@@ -91,6 +107,8 @@ function readStoredProgress(): StoredProgress | null {
         typeof value.legacyNote === "string"
           ? value.legacyNote.slice(0, 160)
           : "",
+      phase: phase === "result" && !report ? undefined : phase,
+      report,
     };
   } catch {
     return null;
@@ -634,6 +652,12 @@ export function CreditTest() {
         setAnswers(stored.answers);
         setCurrentIndex(stored.currentIndex);
         setLegacyNote(stored.legacyNote);
+        if (stored.phase === "result" && stored.report) {
+          setReport(stored.report);
+          setPhase("result");
+        } else if (stored.phase === "guide" || stored.phase === "quiz") {
+          setPhase(stored.phase);
+        }
       }
       setStorageReady(true);
     }, 0);
@@ -645,9 +669,22 @@ export function CreditTest() {
     if (!storageReady || phase === "result") return;
     window.localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ answers, currentIndex, legacyNote }),
+      JSON.stringify({
+        answers,
+        currentIndex,
+        legacyNote,
+        phase: phase === "generating" ? "quiz" : phase,
+      }),
     );
   }, [answers, currentIndex, legacyNote, phase, storageReady]);
+
+  useEffect(() => {
+    if (!storageReady || phase !== "result" || !report) return;
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ answers, currentIndex, legacyNote, phase, report }),
+    );
+  }, [answers, currentIndex, legacyNote, phase, report, storageReady]);
 
   useEffect(() => {
     if (phase !== "generating") return;
@@ -723,7 +760,6 @@ export function CreditTest() {
       }
 
       setReport(payload.data);
-      window.localStorage.removeItem(STORAGE_KEY);
       setPhase("result");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (caughtError) {
