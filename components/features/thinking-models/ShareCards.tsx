@@ -1,9 +1,13 @@
 "use client";
 
-import { toPng } from "html-to-image";
-import { Download, LoaderCircle, Share2 } from "lucide-react";
-import Image from "next/image";
+import { LoaderCircle, Share2 } from "lucide-react";
 import { useRef, useState, type CSSProperties, type RefObject } from "react";
+import { CapturedImages } from "@/components/ui/CapturedImages";
+import {
+  captureNode,
+  saveImages,
+  type CapturedImage,
+} from "@/components/ui/image-capture";
 import {
   CopyrightLine,
   WatermarkLayer,
@@ -14,13 +18,6 @@ import {
 } from "@/lib/domain/thinking-models";
 import { getLayerVisual } from "./layer-meta";
 import styles from "./ThinkingModels.module.css";
-
-interface GeneratedImage {
-  url: string;
-  width: number;
-  height: number;
-  name: string;
-}
 
 /** 取列表项的短标题（「标题：内容」取冒号前部分） */
 function shortTitle(item: string): string {
@@ -51,7 +48,7 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
   const applyRef = useRef<HTMLDivElement>(null);
 
   const [generating, setGenerating] = useState(false);
-  const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [images, setImages] = useState<CapturedImage[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
 
   const layer = getLayerById(model.layer);
@@ -91,23 +88,6 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
     },
   ];
 
-  async function snapshot(
-    ref: RefObject<HTMLDivElement | null>,
-    label: string,
-    index: number,
-  ): Promise<GeneratedImage | null> {
-    const node = ref.current;
-    if (!node) return null;
-
-    const url = await toPng(node, { pixelRatio: 2 });
-    return {
-      url,
-      width: node.offsetWidth * 2,
-      height: node.offsetHeight * 2,
-      name: `${prefix}-${index + 1}-${label}.png`,
-    };
-  }
-
   async function handleGenerate() {
     if (generating) return;
 
@@ -122,10 +102,13 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
         [applyRef, "用好它"],
       ];
 
-      const result: GeneratedImage[] = [];
+      const result: CapturedImage[] = [];
       for (const [index, [ref, label]] of cards.entries()) {
-        const image = await snapshot(ref, label, index);
-        if (image) result.push(image);
+        const node = ref.current;
+        if (!node) continue;
+        result.push(
+          await captureNode(node, `${prefix}-${index + 1}-${label}.png`),
+        );
       }
       setImages(result);
     } catch {
@@ -135,42 +118,13 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
     }
   }
 
-  function downloadOne(image: GeneratedImage) {
-    const link = document.createElement("a");
-    link.href = image.url;
-    link.download = image.name;
-    link.click();
-  }
-
   async function handleDownloadAll() {
-    // 支持 File System Access API 的浏览器：选目录后写入以模型命名的子文件夹
-    if (window.showDirectoryPicker) {
-      try {
-        const root = await window.showDirectoryPicker({ mode: "readwrite" });
-        const folder = await root.getDirectoryHandle(prefix, { create: true });
-        for (const image of images) {
-          const blob = await (await fetch(image.url)).blob();
-          const handle = await folder.getFileHandle(image.name, {
-            create: true,
-          });
-          const writable = await handle.createWritable();
-          await writable.write(blob);
-          await writable.close();
-        }
-        setNotice(`已将 ${images.length} 张图保存到「${prefix}」文件夹。`);
-        return;
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-      }
+    const outcome = await saveImages(prefix, images);
+    if (outcome === "folder") {
+      setNotice(`已将 ${images.length} 张图保存到「${prefix}」文件夹。`);
+    } else if (outcome === "downloads") {
+      setNotice("当前浏览器不支持选择文件夹，图片已保存到默认下载目录。");
     }
-
-    for (const image of images) {
-      downloadOne(image);
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    }
-    setNotice("当前浏览器不支持选择文件夹，图片已保存到默认下载目录。");
   }
 
   const cardHeader = (
@@ -215,41 +169,7 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
       </div>
 
       {images.length > 0 ? (
-        <div className={styles.shareResults}>
-          <div className={styles.shareResultsGrid}>
-            {images.map((image) => (
-              <figure key={image.name} className={styles.shareResultCard}>
-                <Image
-                  src={image.url}
-                  alt={image.name}
-                  width={image.width}
-                  height={image.height}
-                  unoptimized
-                  className={styles.shareResultImage}
-                />
-                <figcaption className={styles.shareResultMeta}>
-                  <span>{image.name}</span>
-                  <button
-                    type="button"
-                    className={styles.shareResultDownload}
-                    onClick={() => downloadOne(image)}
-                  >
-                    <Download size={13} />
-                    下载
-                  </button>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <button
-            type="button"
-            className={styles.shareButton}
-            onClick={handleDownloadAll}
-          >
-            <Download size={15} />
-            全部下载（存入文件夹）
-          </button>
-        </div>
+        <CapturedImages images={images} onDownloadAll={handleDownloadAll} />
       ) : null}
 
       {/* 离屏渲染的三张分享卡片，仅用于截图 */}

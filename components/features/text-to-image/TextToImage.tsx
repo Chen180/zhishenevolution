@@ -1,9 +1,13 @@
 "use client";
 
-import { toPng } from "html-to-image";
-import { Download, ImagePlus, LoaderCircle, Type } from "lucide-react";
-import Image from "next/image";
+import { ImagePlus, LoaderCircle, Type } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { CapturedImages } from "@/components/ui/CapturedImages";
+import {
+  captureNode,
+  saveImages,
+  type CapturedImage,
+} from "@/components/ui/image-capture";
 import {
   COPYRIGHT_LINE,
   CopyrightLine,
@@ -20,13 +24,6 @@ import styles from "./TextToImage.module.css";
 type Theme = "paper" | "ink";
 type FontSize = "small" | "medium" | "large";
 type Mode = "single" | "paged";
-
-interface GeneratedImage {
-  url: string;
-  width: number;
-  height: number;
-  name: string;
-}
 
 const CANVAS_WIDTH = 720;
 const PIXEL_RATIO = 2;
@@ -58,13 +55,6 @@ const MODE_OPTIONS: { value: Mode; label: string; hint: string }[] = [
   { value: "paged", label: "分页多图", hint: "超长内容拆成多张，清晰度更高" },
 ];
 
-function downloadImage(image: GeneratedImage) {
-  const link = document.createElement("a");
-  link.href = image.url;
-  link.download = image.name;
-  link.click();
-}
-
 export function TextToImage() {
   const [text, setText] = useState("");
   const [theme, setTheme] = useState<Theme>("paper");
@@ -72,7 +62,7 @@ export function TextToImage() {
   const [mode, setMode] = useState<Mode>("paged");
   const [prefix, setPrefix] = useState(DEFAULT_PREFIX);
   const [generating, setGenerating] = useState(false);
-  const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [images, setImages] = useState<CapturedImage[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [previewBoxWidth, setPreviewBoxWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
@@ -114,13 +104,6 @@ export function TextToImage() {
 
   const previewScale =
     previewBoxWidth > 0 ? Math.min(1, previewBoxWidth / CANVAS_WIDTH) : 1;
-
-  async function snapshotNode(node: HTMLElement, name: string) {
-    const width = node.offsetWidth * PIXEL_RATIO;
-    const height = node.offsetHeight * PIXEL_RATIO;
-    const url = await toPng(node, { pixelRatio: PIXEL_RATIO });
-    return { url, width, height, name };
-  }
 
   function measureParagraphs(): TextBlock[] {
     const host = measureRef.current;
@@ -165,7 +148,7 @@ export function TextToImage() {
     return node;
   }
 
-  async function generatePaged(): Promise<GeneratedImage[]> {
+  async function generatePaged(): Promise<CapturedImage[]> {
     const blocks = measureParagraphs();
     const pages = paginateBlocks(blocks, PAGE_CONTENT_HEIGHT);
 
@@ -174,11 +157,11 @@ export function TextToImage() {
     document.body.appendChild(host);
 
     try {
-      const result: GeneratedImage[] = [];
+      const result: CapturedImage[] = [];
       for (const [index, page] of pages.entries()) {
         const node = buildPageNode(page);
         host.appendChild(node);
-        result.push(await snapshotNode(node, fileName(index)));
+        result.push(await captureNode(node, fileName(index), PIXEL_RATIO));
         node.remove();
       }
       return result;
@@ -204,7 +187,7 @@ export function TextToImage() {
         if (!preview) return;
 
         if (preview.offsetHeight <= MAX_SINGLE_HEIGHT) {
-          setImages([await snapshotNode(preview, fileName(0))]);
+          setImages([await captureNode(preview, fileName(0), PIXEL_RATIO)]);
           return;
         }
 
@@ -220,40 +203,12 @@ export function TextToImage() {
   }
 
   async function handleDownloadAll() {
-    // 支持 File System Access API 的浏览器：选目录后写入同名子文件夹
-    if (window.showDirectoryPicker) {
-      try {
-        const root = await window.showDirectoryPicker({ mode: "readwrite" });
-        const folder = await root.getDirectoryHandle(prefixName, {
-          create: true,
-        });
-        for (const image of images) {
-          const blob = await (await fetch(image.url)).blob();
-          const handle = await folder.getFileHandle(image.name, {
-            create: true,
-          });
-          const writable = await handle.createWritable();
-          await writable.write(blob);
-          await writable.close();
-        }
-        setNotice(
-          `已将 ${images.length} 张图片保存到所选位置下的「${prefixName}」文件夹。`,
-        );
-        return;
-      } catch (error) {
-        // 用户主动取消选择目录时不做任何事
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-      }
+    const outcome = await saveImages(prefixName, images);
+    if (outcome === "folder") {
+      setNotice(`已将 ${images.length} 张图片保存到「${prefixName}」文件夹。`);
+    } else if (outcome === "downloads") {
+      setNotice("当前浏览器不支持选择文件夹，图片已保存到默认下载目录。");
     }
-
-    // 回退：逐张触发浏览器下载
-    for (const image of images) {
-      downloadImage(image);
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    }
-    setNotice("当前浏览器不支持选择文件夹，图片已保存到默认下载目录。");
   }
 
   return (
@@ -418,42 +373,8 @@ export function TextToImage() {
         <section className={styles.results}>
           <div className={styles.resultsHeader}>
             <h2>生成结果（{images.length} 张）</h2>
-            {images.length > 1 ? (
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={handleDownloadAll}
-              >
-                <Download size={15} />
-                全部下载
-              </button>
-            ) : null}
           </div>
-          <div className={styles.resultGrid}>
-            {images.map((image) => (
-              <figure key={image.name} className={styles.resultCard}>
-                <Image
-                  src={image.url}
-                  alt={image.name}
-                  width={image.width}
-                  height={image.height}
-                  unoptimized
-                  className={styles.resultImage}
-                />
-                <figcaption className={styles.resultMeta}>
-                  <span>{image.name}</span>
-                  <button
-                    type="button"
-                    className={styles.secondaryButton}
-                    onClick={() => downloadImage(image)}
-                  >
-                    <Download size={14} />
-                    下载
-                  </button>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <CapturedImages images={images} onDownloadAll={handleDownloadAll} />
         </section>
       ) : null}
 

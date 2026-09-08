@@ -1046,3 +1046,68 @@
     break-inside: avoid;
   }
 }
+
+/* 05 · 延伸阅读：思维模型推荐 */
+.modelSection {
+  margin-top: 72px;
+}
+
+.modelSection h2 {
+  margin: 0;
+  font-family: "Noto Serif SC", "Songti SC", STSong, serif;
+  font-size: 28px;
+}
+
+.modelSection .sectionIntro {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.modelCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.modelCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.modelCard:hover {
+  border-color: var(--orange);
+}
+
+.modelCard span {
+  color: var(--orange);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.modelCard strong {
+  flex: 1;
+  font-size: 15px;
+}
+
+.modelCard svg {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .modelCards {
+    grid-template-columns: 1fr;
+  }
+}

@@ -13,6 +13,7 @@ import {
   Sparkles,
   TreePine,
 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CreditAssessmentReport } from "@/lib/application/assess-credit";
 import {
@@ -21,12 +22,16 @@ import {
   type CreditAnswers,
 } from "@/lib/domain/credit-assessment";
 import {
+  getModelRecommendations,
+} from "@/lib/domain/model-recommendations";
+import {
   CREDIT_DIMENSIONS,
   CREDIT_DIMENSION_ORDER,
   CREDIT_QUESTIONS,
   type CreditQuestion,
   type SingleChoiceQuestion,
 } from "@/lib/domain/credit-questions";
+import { CreditResultShare } from "./CreditResultShare";
 import { CreditTree } from "./CreditTree";
 import styles from "./CreditTest.module.css";
 
@@ -547,12 +552,37 @@ function ResultView({
         </div>
       </section>
 
+      <section className={styles.modelSection}>
+        <p className={styles.sectionLabel}>05 · 延伸阅读</p>
+        <h2>修炼「{assessment.focusDimension.name}」的三个思维模型</h2>
+        <p className={styles.sectionIntro}>
+          {getModelRecommendations(assessment.focusDimension.id).reason}
+        </p>
+        <div className={styles.modelCards}>
+          {getModelRecommendations(assessment.focusDimension.id).models.map(
+            (model) => (
+              <Link
+                key={model.id}
+                href={`/models/${model.id}`}
+                className={styles.modelCard}
+              >
+                <span>{String(model.id).padStart(2, "0")}</span>
+                <strong>{model.name}</strong>
+                <ArrowRight aria-hidden="true" size={15} />
+              </Link>
+            ),
+          )}
+        </div>
+      </section>
+
       {assessment.legacySelections.length > 0 ? (
         <section className={styles.legacyBand}>
           <span>你希望留下</span>
           <p>{assessment.legacySelections.join(" · ")}</p>
         </section>
       ) : null}
+
+      <CreditResultShare report={report} />
 
       <footer className={styles.resultFooter}>
         <p>
