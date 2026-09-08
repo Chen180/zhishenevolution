@@ -17,6 +17,7 @@
 /data/*
 !/data/.gitkeep
 !/data/thinking-models.json
+!/data/articles.json
 /Resource/
 
 # Environment files

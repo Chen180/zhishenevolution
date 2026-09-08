@@ -13,6 +13,7 @@ const FOOTER_NAV = [
   { label: "六个维度", href: "/#system" },
   { label: "人物案例", href: "/#cases" },
   { label: "人物档案", href: "/people" },
+  { label: "文章", href: "/articles" },
   { label: "信用测评", href: "/credit-test" },
 ];
 

@@ -1,0 +1,228 @@
+.page {
+  min-height: 100vh;
+  padding: 128px 0 96px;
+  background: var(--color-paper);
+  color: var(--color-text-dark);
+}
+
+.header,
+.list,
+.detail {
+  width: min(1120px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--color-gold);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1.22;
+}
+
+.lead {
+  max-width: 640px;
+  margin: 18px 0 0;
+  color: var(--color-muted-dark);
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* 列表页 */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 24px;
+  border: 1px solid var(--color-line-light);
+  border-left: 3px solid var(--color-line-light);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--color-gold);
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--color-muted-dark);
+  font-family: var(--font-figure);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.cardExcerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-muted-dark);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 0;
+}
+
+.tag {
+  padding: 3px 12px;
+  border: 1px solid var(--color-line-light);
+  border-radius: 999px;
+  color: var(--color-muted-dark);
+  font-size: 12px;
+}
+
+/* 详情页 */
+
+.detail {
+  max-width: 780px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  color: var(--color-muted-dark);
+  font-size: 13px;
+}
+
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-muted-dark);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--color-gold);
+}
+
+.detailHeader {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--color-line-light);
+}
+
+.detailHeader h1 {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1.4;
+}
+
+.body h2 {
+  margin: 44px 0 16px;
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.5;
+}
+
+.body p {
+  margin: 0 0 18px;
+  color: var(--color-text-dark);
+  font-size: 16px;
+  line-height: 2;
+}
+
+.pagerNav {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line-light);
+}
+
+.pagerNav a {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 46%;
+  color: var(--color-text-dark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.pagerNav a:hover {
+  color: var(--color-gold);
+}
+
+.pagerNav a:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.pagerLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-muted-dark);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.copyright {
+  margin: 48px 0 0;
+  padding-top: 20px;
+  border-top: 1px dashed var(--color-line-light);
+  color: var(--color-muted-dark);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .header h1 {
+    font-size: 32px;
+  }
+
+  .detailHeader h1 {
+    font-size: 26px;
+  }
+
+  .pagerNav a {
+    max-width: 48%;
+    font-size: 13px;
+  }
+}

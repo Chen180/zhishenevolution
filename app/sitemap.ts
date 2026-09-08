@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/config/site";
+import { listArticles } from "@/lib/domain/articles";
 import { getAllModels } from "@/lib/domain/thinking-models";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -9,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/credit-test",
     "/text-to-image",
     "/models",
+    "/articles",
     "/copyright",
     "/disclaimer",
     "/privacy",
@@ -24,5 +26,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...modelRoutes];
+  const articleRoutes: MetadataRoute.Sitemap = listArticles().map(
+    (article) => ({
+      url: `${SITE.url}/articles/${article.slug}`,
+      lastModified: article.date,
+      changeFrequency: "yearly",
+      priority: 0.6,
+    }),
+  );
+
+  return [...staticRoutes, ...modelRoutes, ...articleRoutes];
 }
