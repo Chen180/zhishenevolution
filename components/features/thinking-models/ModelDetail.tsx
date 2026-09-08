@@ -8,7 +8,7 @@ import {
 } from "@/lib/domain/thinking-models";
 import { getLayerVisual } from "./layer-meta";
 import { ModelDiagram } from "./ModelDiagram";
-import { ShareCardButton } from "./ShareCardButton";
+import { ShareCards } from "./ShareCards";
 import styles from "./ThinkingModels.module.css";
 
 export function ModelDetail({ model }: { model: ThinkingModel }) {
@@ -46,7 +46,7 @@ export function ModelDetail({ model }: { model: ThinkingModel }) {
             <p className={styles.detailNameEn}>{model.nameEn}</p>
           ) : null}
           <p className={styles.detailDefinition}>{model.definition}</p>
-          <ShareCardButton model={model} />
+          <ShareCards model={model} />
         </header>
 
         <ModelDiagram model={model} />

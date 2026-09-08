@@ -394,7 +394,7 @@
   color: var(--color-gold);
 }
 
-/* 分享卡片 */
+/* 分享图 */
 
 .shareRow {
   display: flex;
@@ -428,8 +428,8 @@
   cursor: wait;
 }
 
-.shareError {
-  color: var(--color-dim-env);
+.shareNotice {
+  color: var(--color-muted-dark);
   font-size: 13px;
 }
 
@@ -443,6 +443,62 @@
   }
 }
 
+.shareResults {
+  margin-top: 20px;
+}
+
+.shareResultsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.shareResultCard {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-line-light);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+}
+
+.shareResultImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shareResultMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--color-line-light);
+  color: var(--color-muted-dark);
+  font-size: 11px;
+}
+
+.shareResultMeta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shareResultDownload {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  color: var(--color-green-deep);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .shareCardHost {
   position: fixed;
   left: -10000px;
@@ -453,87 +509,236 @@
 .shareCard {
   box-sizing: border-box;
   width: 720px;
-  padding: 52px 56px;
-  background: var(--color-ink-soft);
-  color: var(--color-text-light);
+  padding: 44px 48px 36px;
+  background: var(--color-paper-strong);
+  color: var(--color-text-dark);
   font-family: var(--font-sans);
 }
 
 .shareCardTop {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  color: var(--color-muted-light);
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  gap: 16px;
 }
 
-.shareCardName {
-  margin: 36px 0 0;
-  font-family: var(--font-display);
-  font-size: 42px;
-  line-height: 1.25;
-}
-
-.shareCardNameEn {
-  margin: 8px 0 0;
-  color: var(--color-muted-light);
-  font-size: 16px;
-  letter-spacing: 0.06em;
-}
-
-.shareCardDivider {
-  width: 56px;
-  height: 3px;
-  margin: 26px 0;
-  border-radius: 2px;
-  background: var(--layer-color, var(--color-gold));
-}
-
-.shareCardDef {
-  margin: 0;
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.9;
-}
-
-.shareCardMethods {
-  margin-top: 28px;
+.shareCardBrand {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
+  color: var(--color-text-dark);
+  font-size: 13px;
+  font-weight: 800;
 }
 
-.shareCardMethods p {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  color: var(--color-muted-light);
-  font-size: 15px;
+.shareCardBrand em {
+  color: var(--color-muted-dark);
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.12em;
 }
 
-.shareCardMethods span {
-  display: inline-grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
+.shareCardTag {
+  padding: 6px 14px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 24%, transparent);
+  background: var(--layer-color, var(--color-gold));
   color: var(--color-text-light);
   font-size: 12px;
   font-weight: 800;
-  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.shareCardName {
+  margin: 22px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.shareCardName span {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-muted-dark);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.shareCardNameCompact {
+  margin: 18px 0 0;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.shareCardNameCompact span {
+  display: block;
+  margin-top: 3px;
+  color: var(--color-muted-dark);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.shareBlocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.shareBlock {
+  min-height: 128px;
+  padding: 18px 20px;
+  border-radius: 10px;
+  color: var(--color-text-light);
+}
+
+.shareBlockLabel {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.shareBlockSub {
+  margin: 3px 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.shareBlockText {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  opacity: 0.95;
+}
+
+.sharePrinciple {
+  margin: 14px 0 0;
+  padding: 14px 18px;
+  border: 1px dashed var(--color-line-light);
+  border-radius: var(--radius-brand);
+  color: var(--color-muted-dark);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.sharePrinciple strong {
+  margin-right: 10px;
+  color: var(--layer-color, var(--color-gold));
+}
+
+.shareSection {
+  margin-top: 20px;
+  overflow: hidden;
+  border: 1px solid var(--color-line-light);
+  border-radius: 10px;
+}
+
+.shareSectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--layer-color, var(--color-gold));
+  color: var(--color-text-light);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.shareSectionBar span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+}
+
+.shareSectionBody {
+  padding: 16px 20px;
+  color: var(--color-text-dark);
+  font-size: 13.5px;
+  line-height: 2;
+}
+
+.shareSectionBody p {
+  margin: 0;
+}
+
+.shareSectionBody ul,
+.shareSectionBody ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.shareSectionBody li {
+  margin-bottom: 8px;
+}
+
+.shareSectionBody li:last-child {
+  margin-bottom: 0;
+}
+
+.shareStory {
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: var(--color-paper-muted);
+}
+
+.shareMethodRow {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-line-light);
+}
+
+.shareMethodNo {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 16%, var(--color-paper));
+  color: var(--layer-color, var(--color-gold));
+  font-family: var(--font-figure);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.shareMethodRow strong {
+  color: var(--layer-color, var(--color-gold));
+  font-size: 14px;
+}
+
+.shareMethodRow p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 4px 0 0;
+  color: var(--color-text-dark);
+  font-size: 13px;
+  line-height: 1.75;
 }
 
 .shareCardFooter {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-line-dark);
-  color: var(--color-muted-light);
+  margin-top: 26px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line-light);
+  color: var(--color-muted-dark);
   font-size: 12px;
 }
 
@@ -552,5 +757,9 @@
 
   .diagramArrow {
     transform: rotate(90deg);
+  }
+
+  .shareResultsGrid {
+    grid-template-columns: 1fr;
   }
 }
