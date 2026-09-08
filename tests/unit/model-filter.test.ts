@@ -62,6 +62,25 @@ describe("filterModelSummaries", () => {
     expect(miss).toEqual([]);
   });
 
+  it("fuzzy-matches Chinese names by character order", () => {
+    // 「第一原理」不是「第一性原理」的子串，但字符按顺序出现
+    const result = filterModelSummaries(summaries, "第一原理", null);
+
+    expect(result.map((model) => model.id)).toContain(1);
+  });
+
+  it("fuzzy-matches English names by character order", () => {
+    const result = filterModelSummaries(summaries, "fisp", null);
+
+    expect(result.map((model) => model.id)).toContain(1);
+  });
+
+  it("ranks name matches above definition matches", () => {
+    const result = filterModelSummaries(summaries, "第一性原理", null);
+
+    expect(result[0].id).toBe(1);
+  });
+
   it("returns an empty array when nothing matches", () => {
     expect(filterModelSummaries(summaries, "不存在的模型xyz", null)).toEqual(
       [],
