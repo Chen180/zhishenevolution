@@ -106,6 +106,17 @@ export function SiteFooter() {
           >
             京ICP备2026057291号-2
           </a>
+          <a
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502062847"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 transition-colors hover:text-gold-light"
+          >
+            {/* 公安备案图标有固定官方样式，此处不需要 Next 图片优化 */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/beian-icon.png" alt="" width={13} height={14} />
+            京公网安备11010502062847号
+          </a>
         </div>
       </div>
     </footer>
