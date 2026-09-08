@@ -91,3 +91,49 @@
     }
   }
 }
+
+/* 版权水印：所有生成图片统一叠加，组件见 components/ui/Watermark.tsx */
+.wm-layer {
+  position: absolute;
+  inset: -25%;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: space-evenly;
+  justify-items: center;
+  transform: rotate(-28deg);
+  pointer-events: none;
+}
+
+.wm-layer span {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  color: rgba(92, 81, 66, 0.09);
+}
+
+.wm-layer--dark span {
+  color: rgba(247, 244, 236, 0.08);
+}
+
+.wm-copyright {
+  margin: 28px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(16, 20, 17, 0.12);
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(16, 20, 17, 0.45);
+}
+
+.wm-copyright--dark {
+  border-top-color: rgba(255, 255, 255, 0.14);
+  color: rgba(247, 244, 236, 0.5);
+}
+
+.wm-copyright--bare {
+  margin-top: 10px;
+  padding-top: 0;
+  border-top: 0;
+}

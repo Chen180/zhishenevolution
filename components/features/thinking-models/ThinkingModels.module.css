@@ -507,6 +507,8 @@
 }
 
 .shareCard {
+  position: relative;
+  overflow: hidden;
   box-sizing: border-box;
   width: 720px;
   padding: 44px 48px 36px;

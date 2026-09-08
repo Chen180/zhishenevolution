@@ -228,6 +228,8 @@
 }
 
 .canvas {
+  position: relative;
+  overflow: hidden;
   box-sizing: border-box;
   padding: 56px;
   font-family: var(--font-sans);

@@ -5,6 +5,12 @@ import { Download, ImagePlus, LoaderCircle, Type } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
+  COPYRIGHT_LINE,
+  CopyrightLine,
+  WATERMARK_TEXT,
+  WatermarkLayer,
+} from "@/components/ui/Watermark";
+import {
   paginateBlocks,
   splitIntoParagraphs,
   type TextBlock,
@@ -26,8 +32,8 @@ const CANVAS_WIDTH = 720;
 const PIXEL_RATIO = 2;
 /** 浏览器 canvas 高度上限约 16384 设备像素，pixelRatio 2 下保守取 7500 CSS px */
 const MAX_SINGLE_HEIGHT = 7500;
-/** 分页模式每页内容区高度（不含上下 padding） */
-const PAGE_CONTENT_HEIGHT = 1180;
+/** 分页模式每页内容区高度（不含上下 padding，已扣除版权行占位） */
+const PAGE_CONTENT_HEIGHT = 1120;
 const DEFAULT_PREFIX = "长文转图";
 
 const FONT_SIZE_MAP: Record<FontSize, number> = {
@@ -140,6 +146,21 @@ export function TextToImage() {
       blockEl.appendChild(paragraph);
       node.appendChild(blockEl);
     }
+
+    // 版权行与平铺水印，与可见预览保持一致
+    const footer = document.createElement("p");
+    footer.className = `wm-copyright${theme === "ink" ? " wm-copyright--dark" : ""}`;
+    footer.textContent = COPYRIGHT_LINE;
+    node.appendChild(footer);
+
+    const watermark = document.createElement("div");
+    watermark.className = `wm-layer${theme === "ink" ? " wm-layer--dark" : ""}`;
+    for (let index = 0; index < 15; index += 1) {
+      const span = document.createElement("span");
+      span.textContent = WATERMARK_TEXT;
+      watermark.appendChild(span);
+    }
+    node.appendChild(watermark);
 
     return node;
   }
@@ -383,6 +404,8 @@ export function TextToImage() {
                         预览区域：输入文案后这里会显示排版效果
                       </p>
                     )}
+                    <CopyrightLine tone={theme === "ink" ? "dark" : "light"} />
+                    <WatermarkLayer tone={theme === "ink" ? "dark" : "light"} />
                   </div>
                 </div>
               </div>

@@ -5,6 +5,10 @@ import { Download, LoaderCircle, Share2 } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState, type CSSProperties, type RefObject } from "react";
 import {
+  CopyrightLine,
+  WatermarkLayer,
+} from "@/components/ui/Watermark";
+import {
   getLayerById,
   type ThinkingModel,
 } from "@/lib/domain/thinking-models";
@@ -180,12 +184,15 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
   );
 
   const cardFooter = (pageNo: number) => (
-    <div className={styles.shareCardFooter}>
-      <span>
-        {footerLeft} · 第 {pageNo} 张 / 共 3 张
-      </span>
-      <span>制作人 · 智神进化纪 | 何明轩</span>
-    </div>
+    <>
+      <div className={styles.shareCardFooter}>
+        <span>
+          {footerLeft} · 第 {pageNo} 张 / 共 3 张
+        </span>
+        <span>制作人 · 智神进化纪 | 何明轩</span>
+      </div>
+      <CopyrightLine withDivider={false} />
+    </>
   );
 
   return (
@@ -250,6 +257,7 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
         {/* 第 1 张：总览卡 */}
         <div ref={overviewRef} className={styles.shareCard} style={cardStyle}>
           {cardHeader}
+          <WatermarkLayer />
           <h3 className={styles.shareCardName}>
             {model.name}
             <span>{model.nameEn}</span>
@@ -298,6 +306,7 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
         {/* 第 2 张：读懂它（原理 · 背景 · 故事全文） */}
         <div ref={understandRef} className={styles.shareCard} style={cardStyle}>
           {cardHeader}
+          <WatermarkLayer />
           <h3 className={styles.shareCardNameCompact}>
             {model.name}
             <span>
@@ -341,6 +350,7 @@ export function ShareCards({ model }: { model: ThinkingModel }) {
         {/* 第 3 张：用好它（场景 · 方法 · 误区全文） */}
         <div ref={applyRef} className={styles.shareCard} style={cardStyle}>
           {cardHeader}
+          <WatermarkLayer />
           <h3 className={styles.shareCardNameCompact}>
             {model.name}
             <span>
