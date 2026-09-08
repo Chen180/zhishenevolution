@@ -705,3 +705,86 @@
     transform: rotate(90deg);
   }
 }
+
+/* 搜索与层级筛选 */
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(1120px, calc(100% - 48px));
+  margin: 40px auto 0;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 480px;
+  padding: 12px 18px;
+  border: 1px solid var(--color-line-light);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+  color: var(--color-text-dark);
+  font: inherit;
+  font-size: 14px;
+}
+
+.searchInput::placeholder {
+  color: var(--color-muted-dark);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border: 1px solid var(--color-line-light);
+  border-radius: 999px;
+  background: var(--color-paper-strong);
+  color: var(--color-text-dark);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chip svg {
+  color: var(--layer-color, var(--color-muted-dark));
+}
+
+.chip:hover {
+  border-color: var(--layer-color, var(--color-gold));
+}
+
+.chipActive,
+.chipActive:hover {
+  border-color: var(--layer-color, var(--color-gold));
+  background: color-mix(in srgb, var(--layer-color, var(--color-gold)) 14%, var(--color-paper-strong));
+}
+
+.resultCount {
+  margin: 0;
+  color: var(--color-muted-dark);
+  font-size: 13px;
+}
+
+.empty {
+  width: min(1120px, calc(100% - 48px));
+  margin: 64px auto 0;
+  padding: 48px 24px;
+  border: 1px dashed var(--color-line-light);
+  border-radius: var(--radius-brand);
+  color: var(--color-muted-dark);
+  font-size: 14px;
+  text-align: center;
+}

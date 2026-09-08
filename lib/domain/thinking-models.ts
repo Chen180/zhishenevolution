@@ -1,4 +1,5 @@
 import data from "@/data/thinking-models.json";
+import type { ModelSummary } from "./model-filter";
 
 /**
  * 思维模型库的只读数据访问层。
@@ -60,4 +61,15 @@ export function getModelsByLayer(layerId: string): ThinkingModel[] {
 
 export function getLayerById(layerId: string): ThinkingModelLayer | undefined {
   return THINKING_MODEL_LAYERS.find((layer) => layer.id === layerId);
+}
+
+/** 100 个模型的列表摘要，供索引页搜索/筛选使用。 */
+export function listModelSummaries(): ModelSummary[] {
+  return MODELS.map(({ id, name, nameEn, layer, definition }) => ({
+    id,
+    name,
+    nameEn,
+    layer,
+    definition,
+  }));
 }

@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import {
   THINKING_MODEL_LAYERS,
-  getModelsByLayer,
+  listModelSummaries,
 } from "@/lib/domain/thinking-models";
 import { getLayerVisual } from "./layer-meta";
+import { ModelsExplorer } from "./ModelsExplorer";
 import styles from "./ThinkingModels.module.css";
 
 export function ModelsIndex() {
@@ -38,50 +38,10 @@ export function ModelsIndex() {
         </nav>
       </section>
 
-      {THINKING_MODEL_LAYERS.map((layer) => {
-        const { color, Icon } = getLayerVisual(layer.id);
-        return (
-          <section
-            key={layer.id}
-            id={layer.id}
-            className={styles.layer}
-            style={{ "--layer-color": color } as CSSProperties}
-          >
-            <div className={styles.layerHeader}>
-              <h2>
-                <span className={styles.layerBadge}>
-                  <Icon size={20} aria-hidden />
-                </span>
-                {layer.name}
-              </h2>
-              <p>
-                {layer.theme} · 共 {layer.to - layer.from + 1} 个模型
-              </p>
-            </div>
-            <div className={styles.cardGrid}>
-              {getModelsByLayer(layer.id).map((model) => (
-                <Link
-                  key={model.id}
-                  href={`/models/${model.id}`}
-                  className={styles.card}
-                >
-                  <span className={styles.cardTop}>
-                    <Icon size={13} aria-hidden />
-                    <span className={styles.cardNumber}>
-                      {String(model.id).padStart(2, "0")}
-                    </span>
-                  </span>
-                  <span className={styles.cardName}>{model.name}</span>
-                  {model.nameEn ? (
-                    <span className={styles.cardNameEn}>{model.nameEn}</span>
-                  ) : null}
-                  <span className={styles.cardDef}>{model.definition}</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      <ModelsExplorer
+        summaries={listModelSummaries()}
+        layers={THINKING_MODEL_LAYERS}
+      />
     </div>
   );
 }
