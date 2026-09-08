@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
+import { SITE } from "@/lib/config/site";
 import { getAllModels } from "@/lib/domain/thinking-models";
-
-const BASE_URL = "https://zhishenevo.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -14,13 +13,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/disclaimer",
     "/privacy",
   ].map((path) => ({
-    url: `${BASE_URL}${path}`,
+    url: `${SITE.url}${path}`,
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority: path === "" ? 1 : path === "/models" ? 0.9 : 0.7,
   }));
 
   const modelRoutes: MetadataRoute.Sitemap = getAllModels().map((model) => ({
-    url: `${BASE_URL}/models/${model.id}`,
+    url: `${SITE.url}/models/${model.id}`,
     changeFrequency: "yearly",
     priority: 0.6,
   }));
