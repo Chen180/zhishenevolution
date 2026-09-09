@@ -11,9 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run lint && npm run typecheck && npm run test",
-    "verify": "npm run check && npm run build",
+    "verify": "npm run check && npm run check:context && npm run build",
     "build:models": "node scripts/build-thinking-models.mjs",
-    "build:articles": "node scripts/build-articles.mjs"
+    "build:articles": "node scripts/build-articles.mjs",
+    "check:context": "node scripts/check-deploy-context.mjs"
   },
   "engines": {
     "node": "22.x",

@@ -24,3 +24,8 @@ writing Next.js code, and follow all local deprecation notices.
 - Keep port 3000 private and preserve the `/app/data` persistence contract.
 - Add new environment variables to `.env.example`.
 - Run `npm run verify` before considering a change ready for release.
+- When adding files the production build depends on (data, scripts,
+  assets), check `.gitignore` and `.dockerignore` in the same change:
+  a committed file excluded from the Docker build context fails the
+  ACR image build even though local `next build` passes.
+  `npm run check:context` (part of `verify`) guards this for `data/`.
