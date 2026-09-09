@@ -164,8 +164,8 @@ describe("buildExcerpt", () => {
 });
 
 describe("data/articles.json（真实产物）", () => {
-  it("包含 12 篇文章且字段完整", () => {
-    expect(data.articles).toHaveLength(12);
+  it("文章非空且字段完整（数量随母版增减，不写死）", () => {
+    expect(data.articles.length).toBeGreaterThan(0);
     const slugs = new Set<string>();
     for (const article of data.articles) {
       expect(article.title.length).toBeGreaterThan(0);
