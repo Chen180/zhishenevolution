@@ -23,6 +23,8 @@ export interface Article {
   excerpt: string;
   /** 预解析的正文内容块 */
   blocks: ArticleBlock[];
+  /** 公众号原文链接（母版中「原文：URL」行），可选 */
+  sourceUrl?: string;
 }
 
 export type ArticleSummary = Omit<Article, "blocks">;

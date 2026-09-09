@@ -74,6 +74,19 @@ export function ArticleDetail({
           )}
         </nav>
 
+        {article.sourceUrl ? (
+          <p className={styles.sourceLine}>
+            <a
+              href={article.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              在微信原文中阅读
+              <ArrowRight size={13} />
+            </a>
+          </p>
+        ) : null}
+
         <p className={styles.copyright}>
           智神进化纪 zhishenevo.com ｜ 何明轩 · 保留所有权利
         </p>

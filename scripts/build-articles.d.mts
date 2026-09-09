@@ -15,6 +15,8 @@ export interface ParsedArticle {
   tags: string[];
   excerpt: string;
   blocks: ArticleBlock[];
+  /** 公众号原文链接（母版中「原文：URL」行），可选 */
+  sourceUrl?: string;
 }
 
 export declare function parseArticleFilename(filename: string): {

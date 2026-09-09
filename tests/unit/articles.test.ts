@@ -110,6 +110,18 @@ describe("parseArticle", () => {
     expect(spaced.tags).toEqual(["时间信用", "王计兵", "AI时代"]);
   });
 
+  it("提取「原文：URL」行为公众号原文链接并从正文丢弃", () => {
+    const article = parseArticle(
+      "标题\n\n正文。\n\n原文：https://mp.weixin.qq.com/s/abc123\n\nEND\n作者：智神进化纪",
+      META,
+    );
+    expect(article.sourceUrl).toBe("https://mp.weixin.qq.com/s/abc123");
+    expect(article.blocks).toEqual([{ type: "paragraph", text: "正文。" }]);
+
+    const without = parseArticle("标题\n\n正文。", META);
+    expect(without.sourceUrl).toBeUndefined();
+  });
+
   it("markdown 小标题剥掉井号，编号小标题保留原文，统一为 heading 块", () => {
     const article = parseArticle(
       "标题\n\n开头段落。\n\n# 01 第一节\n\n内容一。\n\n## 第二节\n\n内容二。\n\n1、第三节\n\n内容三。\n\n八、第四节\n\n内容四。",
