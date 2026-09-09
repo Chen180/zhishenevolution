@@ -4,6 +4,7 @@
 node_modules
 data/*
 !data/thinking-models.json
+!data/articles.json
 Resource
 coverage
 out
