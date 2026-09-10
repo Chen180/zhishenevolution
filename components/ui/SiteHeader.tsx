@@ -16,7 +16,11 @@ const NAV_ITEMS = [
   { label: "长文转图", href: "/text-to-image" },
 ];
 
-const MOBILE_NAV_ITEMS = [...NAV_ITEMS, { label: "关于何明轩", href: "/#about" }];
+const MOBILE_NAV_ITEMS = [
+  ...NAV_ITEMS,
+  { label: "信用证据建立营", href: "/evidence-camp" },
+  { label: "关于何明轩", href: "/#about" },
+];
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);

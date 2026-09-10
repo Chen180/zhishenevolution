@@ -42,6 +42,11 @@ export function listArticles(): ArticleSummary[] {
   }));
 }
 
+/** Latest published article summaries for compact surfaces such as the homepage. */
+export function listRecentArticles(limit: number): ArticleSummary[] {
+  return listArticles().slice(0, Math.max(0, Math.floor(limit)));
+}
+
 export function getArticleBySlug(slug: string): Article | undefined {
   return ARTICLES.find((article) => article.slug === slug);
 }

@@ -1,11 +1,16 @@
 import { ArrowDownRight, ClipboardCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { listRecentArticles } from "@/lib/domain/articles";
+import { LivingTree } from "./LivingTree";
 
 /**
  * 首屏 Hero：生命树背景 + 双层渐变遮罩，让 fixed Header 覆盖其上。
  */
 export function Hero() {
+  const latestArticle = listRecentArticles(1)[0];
+  const latestDate = latestArticle?.date.replaceAll("-", ".");
+
   return (
     <section
       aria-labelledby="hero-title"
@@ -25,11 +30,16 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,10,8,0.94)_0%,rgba(7,10,8,0.72)_58%,rgba(7,10,8,0.44)_100%),linear-gradient(0deg,rgba(7,10,8,0.9)_0%,transparent_58%)] md:bg-[linear-gradient(90deg,rgba(7,10,8,0.96)_0%,rgba(7,10,8,0.86)_28%,rgba(7,10,8,0.28)_64%,rgba(7,10,8,0.5)_100%),linear-gradient(0deg,rgba(7,10,8,0.84)_0%,transparent_45%)]"
       />
+      <LivingTree />
       <div className="container-site relative z-2 h-full">
         <div className="flex h-full w-full flex-col justify-end pb-[82px] md:w-[min(710px,66%)] md:justify-center md:pb-[10px] md:pt-[68px]">
           <p className="mb-5 flex items-center gap-[14px] text-[13px] font-semibold text-gold-light md:mb-7">
             <span aria-hidden className="inline-block h-px w-[38px] bg-current" />
             解释时代，理解自己
+          </p>
+          <p className="hero-system-status">
+            <span aria-hidden className="hero-system-status__dot" />
+            系统运行中{latestDate ? ` · 最新记录 ${latestDate}` : ""}
           </p>
           <h1
             id="hero-title"
@@ -48,20 +58,36 @@ export function Hero() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3 md:mt-9">
             <Link
-              href="/credit-test"
+              href="#observations"
               className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-transparent bg-gold-light px-[15px] text-sm font-bold text-ink transition duration-160 hover:-translate-y-0.5 hover:bg-[#f6d48d] md:min-h-[46px] md:px-5"
+            >
+              查看时代观察
+              <ArrowDownRight size={17} strokeWidth={1.7} aria-hidden />
+            </Link>
+            <Link
+              href="/credit-test"
+              className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-text-light/38 bg-ink/28 px-[15px] text-sm font-bold text-text-light transition duration-160 hover:-translate-y-0.5 hover:border-text-light hover:bg-text-light/8 md:min-h-[46px] md:px-5"
             >
               开始信用测评
               <ClipboardCheck size={17} strokeWidth={1.7} aria-hidden />
             </Link>
-            <Link
-              href="#system"
-              className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-text-light/38 bg-ink/28 px-[15px] text-sm font-bold text-text-light transition duration-160 hover:-translate-y-0.5 hover:border-text-light hover:bg-text-light/8 md:min-h-[46px] md:px-5"
-            >
-              了解六维体系
-              <ArrowDownRight size={17} strokeWidth={1.7} aria-hidden />
-            </Link>
           </div>
+          <Link
+            href="/evidence-camp"
+            className="group mt-5 inline-flex w-fit items-center gap-3 rounded-[3px] border border-gold-light/35 bg-ink/26 px-3 py-2 text-xs text-text-light/86 transition duration-160 hover:-translate-y-0.5 hover:border-gold-light hover:bg-white/8"
+          >
+            <span className="rounded-[2px] bg-gold-light px-1.5 py-0.5 text-[10px] font-bold text-ink">
+              FIRST COHORT
+            </span>
+            <span className="font-bold">21 天信用证据建立营</span>
+            <span className="text-text-light/62">首期共创 · 299 元</span>
+            <ArrowDownRight
+              size={15}
+              strokeWidth={1.7}
+              aria-hidden
+              className="transition-transform duration-160 group-hover:translate-x-0.5 group-hover:translate-y-0.5"
+            />
+          </Link>
           <div className="mt-[30px] flex items-center gap-[14px] text-xs text-text-light/62 md:mt-[42px]">
             <strong className="text-sm text-text-light">何明轩</strong>
             <span aria-hidden className="h-7 w-px bg-line-dark" />

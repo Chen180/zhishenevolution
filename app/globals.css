@@ -137,3 +137,141 @@
   padding-top: 0;
   border-top: 0;
 }
+
+/* 首屏生命树运行态：低频、低对比度，避免将品牌变成数据大屏。 */
+.living-tree {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.52;
+}
+
+.living-tree path,
+.living-tree circle {
+  fill: none;
+  stroke: url(#tree-flow);
+  stroke-linecap: round;
+}
+
+.living-tree__roots path {
+  stroke-width: 2;
+  stroke-dasharray: 8 26;
+  animation: tree-flow 15s linear infinite;
+}
+
+.living-tree__trunk {
+  stroke-width: 2.25;
+  stroke-dasharray: 42 84;
+  animation: tree-flow 18s linear infinite reverse;
+}
+
+.living-tree__branches path {
+  stroke-width: 1.5;
+  stroke-dasharray: 7 34;
+  animation: tree-flow 14s linear infinite;
+}
+
+.living-tree__ring {
+  stroke: rgba(239, 198, 110, 0.42);
+  transform-origin: 628px 442px;
+  animation: tree-ring 10s ease-out infinite;
+}
+
+.living-tree__ring--two {
+  animation-delay: -5s;
+}
+
+.living-tree__seeds circle {
+  fill: #efc66e;
+  stroke: none;
+  animation: tree-seed 9s ease-in-out infinite;
+}
+
+.living-tree__seeds circle:nth-child(2) {
+  animation-delay: -3s;
+}
+
+.living-tree__seeds circle:nth-child(3) {
+  animation-delay: -6s;
+}
+
+.living-tree__flow {
+  stroke-width: 2.5;
+  stroke-dasharray: 20 180;
+  animation: tree-flow 12s linear infinite;
+}
+
+.hero-system-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  color: rgba(247, 244, 236, 0.68);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.hero-system-status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-gold-light);
+  box-shadow: 0 0 0 0 rgba(239, 198, 110, 0.56);
+  animation: status-pulse 4s ease-out infinite;
+}
+
+@keyframes tree-flow {
+  to {
+    stroke-dashoffset: -210;
+  }
+}
+
+@keyframes tree-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  24% {
+    opacity: 0.48;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes tree-seed {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(8px) scale(0.8);
+  }
+  48% {
+    opacity: 0.95;
+    transform: translateY(-8px) scale(1);
+  }
+}
+
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 198, 110, 0.56);
+  }
+  65%,
+  100% {
+    box-shadow: 0 0 0 7px rgba(239, 198, 110, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-tree,
+  .living-tree *,
+  .hero-system-status__dot {
+    animation: none;
+  }
+}

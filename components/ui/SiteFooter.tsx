@@ -15,6 +15,7 @@ const FOOTER_NAV = [
   { label: "人物档案", href: "/people" },
   { label: "文章", href: "/articles" },
   { label: "信用测评", href: "/credit-test" },
+  { label: "信用证据建立营", href: "/evidence-camp" },
 ];
 
 export function SiteFooter() {

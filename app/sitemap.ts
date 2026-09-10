@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/people",
     "/credit-test",
+    "/evidence-camp",
     "/text-to-image",
     "/models",
     "/articles",

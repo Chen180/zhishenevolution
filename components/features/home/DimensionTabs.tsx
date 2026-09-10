@@ -29,7 +29,7 @@ export function DimensionTabs() {
           light
           eyebrow="Six Dimensions"
           title="从被看见，到被铭记"
-          description="六个维度不是六张静止的标签，而是一套持续循环的生命系统。选择一个维度，查看它在成长路径与生命树中的位置。"
+          description="六个维度不是六张静止的标签，而是一套持续运行、彼此影响的生命系统。选择一个维度，查看它在成长路径与生命树中的位置。"
           className="mb-9"
         />
 

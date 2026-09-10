@@ -6,6 +6,7 @@ type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   description?: string;
+  headingId?: string;
   /** 深色背景上使用浅色文字 */
   light?: boolean;
   className?: string;
@@ -16,6 +17,7 @@ export function SectionHeading({
   eyebrow,
   title,
   description,
+  headingId,
   light = false,
   className,
 }: SectionHeadingProps) {
@@ -39,6 +41,7 @@ export function SectionHeading({
         {eyebrow}
       </p>
       <h2
+        id={headingId}
         className={`m-0 font-display text-[clamp(28px,4vw,42px)] leading-[1.2] ${
           light ? "text-text-light" : "text-text-dark"
         }`}
