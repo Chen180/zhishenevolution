@@ -728,6 +728,37 @@
   font-weight: 800;
 }
 
+.wechatCta {
+  margin: 56px 0;
+  padding: 32px 28px;
+  background: var(--paper);
+  border-left: 4px solid var(--orange);
+}
+
+.wechatCta h2 {
+  margin: 0 0 14px;
+  font-family: "Noto Serif SC", "Songti SC", STSong, serif;
+  font-size: 24px;
+}
+
+.wechatCta p {
+  max-width: 640px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.wechatCta strong {
+  color: var(--orange);
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.wechatCtaNote {
+  margin-top: 14px !important;
+  color: var(--muted);
+  font-size: 13px !important;
+}
+
 .resultFooter {
   display: flex;
   align-items: center;

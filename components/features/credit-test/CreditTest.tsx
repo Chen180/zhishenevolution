@@ -600,6 +600,20 @@ function ResultView({
         </section>
       ) : null}
 
+      <section className={styles.wechatCta}>
+        <p className={styles.sectionLabel}>06 · 下一步</p>
+        <h2>这份结果标出了你的位置，还没写怎么往上走</h2>
+        <p>
+          加微信 <strong>IAMCAT156</strong>，发送你的结果截图，领取「第
+          {assessment.stage.index} 阶段 · {assessment.stage.name}
+          」行动清单——这一阶段最常见的三个坑，以及未来 30
+          天该做的三件具体的事。
+        </p>
+        <p className={styles.wechatCtaNote}>
+          我们不存储任何测评数据，你的结果只存在你的截图里。
+        </p>
+      </section>
+
       <CreditResultShare report={report} />
 
       <footer className={styles.resultFooter}>

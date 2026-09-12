@@ -285,11 +285,20 @@
   line-height: 1.8;
 }
 
+.wechatHint {
+  margin: 26px 0 0;
+  padding: 10px 14px;
+  background: var(--color-paper);
+  border-left: 3px solid var(--color-accent, #c26a2d);
+  color: var(--color-muted-dark);
+  font-size: 12px;
+}
+
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 26px;
+  margin-top: 14px;
   padding-top: 16px;
   border-top: 1px solid var(--color-line-light);
   color: var(--color-muted-dark);

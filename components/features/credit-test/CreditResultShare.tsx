@@ -79,6 +79,9 @@ export function CreditResultShare({ report }: { report: CreditAssessmentReport }
 
   const cardFooter = (pageNo: number) => (
     <>
+      <p className={styles.wechatHint}>
+        想知道怎么往上一层走？微信 IAMCAT156，发送结果截图领行动清单
+      </p>
       <div className={styles.footer}>
         <span>zhishenevo.com · 第 {pageNo} 张 / 共 2 张</span>
         <span>制作人 · 智神进化纪 | 何明轩</span>
