@@ -212,7 +212,7 @@ export function TextToImage() {
   }
 
   return (
-    <div className={styles.page}>
+    <>
       <section className={styles.header}>
         <p className={styles.eyebrow}>TEXT TO IMAGE</p>
         <h1>长文转图片</h1>
@@ -388,6 +388,6 @@ export function TextToImage() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }

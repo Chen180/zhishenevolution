@@ -43,8 +43,9 @@ export function Resources() {
               },
               {
                 index: "04",
-                title: "长文转图工具",
-                description: "粘贴超长文案，本地一键生成高清 PNG 长图或分页图片",
+                title: "转图工具",
+                description:
+                  "文案转高清长图，或为已有图片叠加统一水印，全部本地完成",
                 href: "/text-to-image",
               },
             ].map((item) => (

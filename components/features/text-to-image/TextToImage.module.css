@@ -300,6 +300,84 @@
   pointer-events: none;
 }
 
+.toolTabs {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto 40px;
+  display: flex;
+  gap: 8px;
+}
+
+.uploadRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.uploadCount {
+  margin: 0;
+  color: var(--color-muted-dark);
+  font-size: 12px;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.previewItem {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-line-light);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+}
+
+.previewImageWrap {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.previewImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.previewName {
+  position: relative;
+  z-index: 3;
+  padding: 8px 10px;
+  background: var(--color-paper-strong);
+  color: var(--color-muted-dark);
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.removeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(16 20 17 / 55%);
+  color: var(--color-text-light);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background: rgb(16 20 17 / 75%);
+}
+
 @media (max-width: 960px) {
   .layout {
     grid-template-columns: 1fr;
