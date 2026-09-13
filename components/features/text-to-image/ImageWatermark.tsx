@@ -4,11 +4,7 @@ import { ImagePlus, LoaderCircle, Upload, X } from "lucide-react";
 import NextImage from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { CapturedImages } from "@/components/ui/CapturedImages";
-import {
-  captureNode,
-  saveImages,
-  type CapturedImage,
-} from "@/components/ui/image-capture";
+import { saveImages, type CapturedImage } from "@/components/ui/image-capture";
 import { WATERMARK_TEXT, WatermarkLayer } from "@/components/ui/Watermark";
 import styles from "./TextToImage.module.css";
 
@@ -28,6 +24,12 @@ const MAX_OUTPUT_HEIGHT = 15000;
 /** 水印字号参照：720px 宽画布对应 20px（见 globals.css .wm-layer），按输出宽度等比缩放 */
 const WM_REF_WIDTH = 720;
 const WM_REF_SIZE = 20;
+/** 与 .wm-layer 一致的旋转角度与配色 */
+const WM_ROTATE_DEG = -28;
+const WM_COLOR: Record<Tone, string> = {
+  light: "rgba(92, 81, 66, 0.09)",
+  dark: "rgba(247, 244, 236, 0.08)",
+};
 const OUTPUT_SUFFIX = "-水印";
 const FOLDER_NAME = "图片加水印";
 
@@ -36,13 +38,10 @@ const TONE_OPTIONS: { value: Tone; label: string; hint: string }[] = [
   { value: "dark", label: "深色底图", hint: "底图偏暗，叠加浅色水印" },
 ];
 
-function readImageSize(
-  url: string,
-): Promise<{ width: number; height: number }> {
+function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new window.Image();
-    img.onload = () =>
-      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onload = () => resolve(img);
     img.onerror = () => reject(new Error("image load failed"));
     img.src = url;
   });
@@ -60,6 +59,57 @@ function outputName(fileName: string, taken: Set<string>): string {
   return name;
 }
 
+function computeOutputSize(source: SourceImage) {
+  const widthScale = Math.min(1, MAX_OUTPUT_WIDTH / source.width);
+  let outWidth = Math.max(1, Math.round(source.width * widthScale));
+  let outHeight = Math.max(1, Math.round(source.height * widthScale));
+  if (outHeight > MAX_OUTPUT_HEIGHT) {
+    const heightScale = MAX_OUTPUT_HEIGHT / outHeight;
+    outWidth = Math.max(1, Math.round(outWidth * heightScale));
+    outHeight = MAX_OUTPUT_HEIGHT;
+  }
+  return { outWidth, outHeight };
+}
+
+/** 在画布上平铺绘制统一水印，覆盖旋转后的外接矩形，保证任意长宽比都铺满 */
+function drawWatermark(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  tone: Tone,
+) {
+  const fontSize = Math.max(14, Math.round((width / WM_REF_WIDTH) * WM_REF_SIZE));
+  ctx.save();
+  ctx.fillStyle = WM_COLOR[tone];
+  ctx.font = `600 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`;
+  ctx.letterSpacing = "0.3em";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const angle = (WM_ROTATE_DEG * Math.PI) / 180;
+  const cos = Math.abs(Math.cos(angle));
+  const sin = Math.abs(Math.sin(angle));
+  const boundW = width * cos + height * sin;
+  const boundH = width * sin + height * cos;
+  const xGap = ctx.measureText(WATERMARK_TEXT).width * 1.5;
+  const yGap = fontSize * 9;
+  const cols = Math.max(1, Math.ceil(boundW / xGap));
+  const rows = Math.max(1, Math.ceil(boundH / yGap));
+
+  ctx.translate(width / 2, height / 2);
+  ctx.rotate(angle);
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      ctx.fillText(
+        WATERMARK_TEXT,
+        (col + 0.5) * xGap - (cols * xGap) / 2,
+        (row + 0.5) * yGap - (rows * yGap) / 2,
+      );
+    }
+  }
+  ctx.restore();
+}
+
 export function ImageWatermark() {
   const [sources, setSources] = useState<SourceImage[]>([]);
   const [tone, setTone] = useState<Tone>("light");
@@ -68,18 +118,30 @@ export function ImageWatermark() {
   const [notice, setNotice] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const urlsRef = useRef<string[]>([]);
+  const idCounterRef = useRef(0);
+  const sourceUrlsRef = useRef<string[]>([]);
+  const resultUrlsRef = useRef<string[]>([]);
 
   // 卸载时释放所有 objectURL
   useEffect(() => {
-    const urls = urlsRef.current;
-    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+    const sourceUrls = sourceUrlsRef.current;
+    const resultUrls = resultUrlsRef.current;
+    return () => {
+      sourceUrls.forEach((url) => URL.revokeObjectURL(url));
+      resultUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
   }, []);
+
+  function clearResults() {
+    for (const url of resultUrlsRef.current) URL.revokeObjectURL(url);
+    resultUrlsRef.current = [];
+    setImages([]);
+  }
 
   async function handleFiles(fileList: FileList | null) {
     if (!fileList || fileList.length === 0) return;
     setNotice(null);
-    setImages([]);
+    clearResults();
 
     const next: SourceImage[] = [];
     let skipped = 0;
@@ -90,14 +152,15 @@ export function ImageWatermark() {
       }
       const url = URL.createObjectURL(file);
       try {
-        const { width, height } = await readImageSize(url);
-        urlsRef.current.push(url);
+        const img = await loadImage(url);
+        sourceUrlsRef.current.push(url);
+        idCounterRef.current += 1;
         next.push({
-          id: `${Date.now()}-${next.length}-${file.name}`,
+          id: `${idCounterRef.current}-${file.name}`,
           url,
           fileName: file.name,
-          width,
-          height,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
         });
       } catch {
         URL.revokeObjectURL(url);
@@ -115,55 +178,40 @@ export function ImageWatermark() {
       if (target) URL.revokeObjectURL(target.url);
       return prev.filter((source) => source.id !== id);
     });
-    setImages([]);
+    clearResults();
   }
 
   function handleClear() {
     for (const source of sources) URL.revokeObjectURL(source.url);
     setSources([]);
-    setImages([]);
+    clearResults();
     setNotice(null);
   }
 
-  function buildOutputNode(source: SourceImage): HTMLDivElement {
-    const widthScale = Math.min(1, MAX_OUTPUT_WIDTH / source.width);
-    let outWidth = Math.max(1, Math.round(source.width * widthScale));
-    let outHeight = Math.max(1, Math.round(source.height * widthScale));
-    if (outHeight > MAX_OUTPUT_HEIGHT) {
-      const heightScale = MAX_OUTPUT_HEIGHT / outHeight;
-      outWidth = Math.max(1, Math.round(outWidth * heightScale));
-      outHeight = MAX_OUTPUT_HEIGHT;
-    }
+  async function renderOne(
+    source: SourceImage,
+    name: string,
+  ): Promise<CapturedImage> {
+    const img = await loadImage(source.url);
+    const { outWidth, outHeight } = computeOutputSize(source);
 
-    const node = document.createElement("div");
-    node.style.position = "relative";
-    node.style.overflow = "hidden";
-    node.style.width = `${outWidth}px`;
-    node.style.lineHeight = "0";
+    const canvas = document.createElement("canvas");
+    canvas.width = outWidth;
+    canvas.height = outHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("canvas unavailable");
 
-    const img = document.createElement("img");
-    img.src = source.url;
-    img.alt = source.fileName;
-    img.style.display = "block";
-    img.style.width = "100%";
-    node.appendChild(img);
+    ctx.drawImage(img, 0, 0, outWidth, outHeight);
+    drawWatermark(ctx, outWidth, outHeight, tone);
 
-    // 与可见预览一致的平铺水印，字号随输出宽度等比缩放
-    const fontSize = Math.max(
-      14,
-      Math.round((outWidth / WM_REF_WIDTH) * WM_REF_SIZE),
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/png"),
     );
-    const watermark = document.createElement("div");
-    watermark.className = `wm-layer${tone === "dark" ? " wm-layer--dark" : ""}`;
-    for (let index = 0; index < 15; index += 1) {
-      const span = document.createElement("span");
-      span.textContent = WATERMARK_TEXT;
-      span.style.fontSize = `${fontSize}px`;
-      watermark.appendChild(span);
-    }
-    node.appendChild(watermark);
+    if (!blob) throw new Error("encode failed");
 
-    return node;
+    const url = URL.createObjectURL(blob);
+    resultUrlsRef.current.push(url);
+    return { url, width: outWidth, height: outHeight, name };
   }
 
   async function handleGenerate() {
@@ -174,27 +222,21 @@ export function ImageWatermark() {
     }
 
     setGenerating(true);
-    setImages([]);
+    clearResults();
     setNotice(null);
 
-    const host = document.createElement("div");
-    host.className = styles.renderHost;
-    document.body.appendChild(host);
-
     try {
+      await document.fonts.ready;
       const taken = new Set<string>();
       const result: CapturedImage[] = [];
       for (const source of sources) {
-        const node = buildOutputNode(source);
-        host.appendChild(node);
-        result.push(await captureNode(node, outputName(source.fileName, taken), 1));
-        node.remove();
+        result.push(await renderOne(source, outputName(source.fileName, taken)));
       }
       setImages(result);
     } catch {
+      clearResults();
       setNotice("生成失败，请减少图片数量或更换浏览器后重试。");
     } finally {
-      host.remove();
       setGenerating(false);
     }
   }
@@ -273,7 +315,10 @@ export function ImageWatermark() {
                   className={`${styles.optionButton} ${
                     tone === option.value ? styles.optionActive : ""
                   }`}
-                  onClick={() => setTone(option.value)}
+                  onClick={() => {
+                    setTone(option.value);
+                    clearResults();
+                  }}
                 >
                   {option.label}
                 </button>
