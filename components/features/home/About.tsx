@@ -48,9 +48,7 @@ export function About() {
             我想和你一起研究这个普通人都绕不开的问题。所以，我用现实中的人和事，观察信用如何积累、被验证，也如何失去。
           </p>
           <blockquote className="m-0 mt-[30px] max-w-[660px] border-l-[3px] border-gold py-[22px] pl-7 font-display text-lg leading-[1.8] text-text-dark lg:text-xl">
-            热点只是入口，规律才是内容；
-            <br />
-            理解时代，也是理解自己。
+            我们真正服务的是：正在成为某种人的人。已经被看见，但还没有被证明；已经有标签，但还没有形成真正属于自己的长期信用资产。
           </blockquote>
           <div aria-label="内容频道" className="mt-[28px] flex flex-wrap gap-[10px]">
             <span className="inline-flex min-h-[38px] items-center gap-2 rounded-[3px] border border-line-light px-[13px] text-xs text-muted-dark">
@@ -65,6 +63,9 @@ export function About() {
         </Reveal>
         <Reveal className="md:col-span-2 lg:col-span-1">
           <figure className="m-0 mx-auto w-full max-w-[280px] rounded-brand border border-line-dark bg-ink p-[14px] pb-3 lg:max-w-none">
+            <p className="m-0 px-1 pb-3 text-center font-display text-[15px] tracking-[0.12em] text-gold-light">
+              欢迎扫码加我
+            </p>
             <Image
               src="/six-credit/assets/wechat-qr.jpg"
               alt="何明轩的微信二维码名片"
