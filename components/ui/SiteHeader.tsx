@@ -13,7 +13,6 @@ const NAV_ITEMS = [
   { label: "文章", href: "/articles" },
   { label: "思维模型", href: "/models" },
   { label: "信用测评", href: "/credit-test" },
-  { label: "转图工具", href: "/text-to-image" },
 ];
 
 const MOBILE_NAV_ITEMS = [

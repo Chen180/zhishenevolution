@@ -41,13 +41,6 @@ export function Resources() {
                 description: "认知升级完全指南：七个层级、100 个模型的定义、原理与落地方法",
                 href: "/models",
               },
-              {
-                index: "04",
-                title: "转图工具",
-                description:
-                  "文案转高清长图，或为已有图片叠加统一水印，全部本地完成",
-                href: "/text-to-image",
-              },
             ].map((item) => (
               <Link
                 key={item.href}
