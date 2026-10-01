@@ -80,7 +80,7 @@ export function Hero() {
               FIRST COHORT
             </span>
             <span className="font-bold">21 天信用证据建立营</span>
-            <span className="text-text-light/62">首期共创 · 299 元</span>
+            <span className="text-text-light/62">首期共创 · 限 30 人</span>
             <ArrowDownRight
               size={15}
               strokeWidth={1.7}

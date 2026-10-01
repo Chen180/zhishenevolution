@@ -98,7 +98,7 @@ export default function EvidenceCampPage() {
               </div>
             </div>
             <div className="grid gap-px overflow-hidden rounded-brand border border-line-dark bg-line-dark">
-              {[['21', '天行动周期'], ['299', '元首期共创价'], ['30', '个首期名额']].map(([value, label]) => (
+              {[['21', '天行动周期'], ['5', '个成长阶段'], ['30', '个首期名额']].map(([value, label]) => (
                 <div key={label} className="bg-ink-soft px-6 py-5">
                   <strong className="font-figure text-[34px] leading-none text-gold-light">{value}</strong>
                   <span className="ml-3 text-[13px] text-muted-light">{label}</span>
@@ -169,7 +169,7 @@ export default function EvidenceCampPage() {
           <div className="p-7 sm:p-12 lg:p-16">
             <p className="m-0 text-xs font-bold tracking-[0.2em] text-gold uppercase">Apply for the first cohort</p>
             <h2 className="m-0 mt-4 font-display text-[clamp(30px,4vw,46px)] leading-[1.25]">先证明你愿意开始。</h2>
-            <p className="m-0 mt-5 max-w-[580px] text-[15px] leading-[1.9] text-muted-dark">首期为 30 人共创营，定价 299 元。暂不在站内收款；复制微信号后添加何明轩，备注「证据」，即可获取开营时间与报名确认。</p>
+            <p className="m-0 mt-5 max-w-[580px] text-[15px] leading-[1.9] text-muted-dark">首期为 30 人共创营，价格与开营时间不在站内公示。每一次报名前，我们希望先有一次真实的对话：复制微信号添加何明轩，备注「证据」，一对一沟通后再确认报名。</p>
             <div className="mt-8"><CopyWeChatButton /></div>
             <p className="m-0 mt-5 text-xs leading-[1.75] text-muted-dark">本营不提供人格诊断、征信结论或结果承诺；它只陪你完成一次真实的观察、复盘与行动。</p>
           </div>
