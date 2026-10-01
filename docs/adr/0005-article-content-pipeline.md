@@ -6,7 +6,8 @@
 ## 背景
 
 站点新增「文章」栏目，内容源是公众号「智神进化纪」的历史长文
-（`Resource/articles/YYYYMMDD_标题.md`）。按 ADR 0001 的约定，Resource
+（`Resource/articles/YYYYMMDD_标题.md`，现按月份归档到
+`Resource/articles/YYYYMM/` 子目录，构建脚本递归收集）。按 ADR 0001 的约定，Resource
 母版不进入 Git 与生产镜像，但页面内容必须在构建时可获得。这与
 ADR 0004 思维模型管线面对的是同一类问题。
 

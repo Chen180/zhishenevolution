@@ -1,5 +1,7 @@
 /**
  * 把 Resource/articles 下的公众号文章母版 md 解析为 data/articles.json。
+ * 母版可按月份归档到子目录（如 Resource/articles/202607/），脚本会
+ * 递归收集全部 .md 文件。
  *
  * 用法：npm run build:articles
  * 母版不入 Git（见 docs/adr/0005），本脚本在母版变更后手动运行。
@@ -17,7 +19,7 @@
  * - 摘要取正文前 1～2 个段落，截断到约 100 字。
  */
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -145,15 +147,30 @@ export function parseArticle(markdown, { slug, date }) {
   };
 }
 
+/** 递归收集目录（含按月份归档的子目录，如 202607/）下的全部 .md 母版 */
+function collectArticleFiles(dir) {
+  const files = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectArticleFiles(path));
+    } else if (entry.isFile() && entry.name.endsWith(".md")) {
+      files.push(path);
+    }
+  }
+  return files.sort();
+}
+
 /** 扫描母版目录，解析全部文章并按日期倒序 */
 export function buildArticles(dir = ARTICLES_DIR) {
-  const files = readdirSync(dir)
-    .filter((name) => name.endsWith(".md"))
-    .sort();
+  const files = collectArticleFiles(dir);
   if (files.length === 0) fail(`未在 ${dir} 找到任何文章母版`);
 
   const articles = files.map((file) =>
-    parseArticle(readFileSync(join(dir, file), "utf8"), parseArticleFilename(file)),
+    parseArticle(
+      readFileSync(file, "utf8"),
+      parseArticleFilename(basename(file)),
+    ),
   );
   articles.sort((a, b) => b.date.localeCompare(a.date));
   return articles;
