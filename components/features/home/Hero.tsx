@@ -58,36 +58,20 @@ export function Hero() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3 md:mt-9">
             <Link
-              href="#observations"
+              href="/credit-test"
               className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-transparent bg-gold-light px-[15px] text-sm font-bold text-ink transition duration-160 hover:-translate-y-0.5 hover:bg-[#f6d48d] md:min-h-[46px] md:px-5"
             >
-              查看时代观察
-              <ArrowDownRight size={17} strokeWidth={1.7} aria-hidden />
-            </Link>
-            <Link
-              href="/credit-test"
-              className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-text-light/38 bg-ink/28 px-[15px] text-sm font-bold text-text-light transition duration-160 hover:-translate-y-0.5 hover:border-text-light hover:bg-text-light/8 md:min-h-[46px] md:px-5"
-            >
-              开始信用测评
+              开始六维信用测评
               <ClipboardCheck size={17} strokeWidth={1.7} aria-hidden />
             </Link>
+            <Link
+              href="#definition"
+              className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[3px] border border-text-light/38 bg-ink/28 px-[15px] text-sm font-bold text-text-light transition duration-160 hover:-translate-y-0.5 hover:border-text-light hover:bg-text-light/8 md:min-h-[46px] md:px-5"
+            >
+              先了解六维信用
+              <ArrowDownRight size={17} strokeWidth={1.7} aria-hidden />
+            </Link>
           </div>
-          <Link
-            href="/evidence-camp"
-            className="group mt-5 inline-flex w-fit items-center gap-3 rounded-[3px] border border-gold-light/35 bg-ink/26 px-3 py-2 text-xs text-text-light/86 transition duration-160 hover:-translate-y-0.5 hover:border-gold-light hover:bg-white/8"
-          >
-            <span className="rounded-[2px] bg-gold-light px-1.5 py-0.5 text-[10px] font-bold text-ink">
-              FIRST COHORT
-            </span>
-            <span className="font-bold">21 天信用证据建立营</span>
-            <span className="text-text-light/62">首期共创 · 限 30 人</span>
-            <ArrowDownRight
-              size={15}
-              strokeWidth={1.7}
-              aria-hidden
-              className="transition-transform duration-160 group-hover:translate-x-0.5 group-hover:translate-y-0.5"
-            />
-          </Link>
           <div className="mt-[30px] flex items-center gap-[14px] text-xs text-text-light/62 md:mt-[42px]">
             <strong className="text-sm text-text-light">何明轩</strong>
             <span aria-hidden className="h-7 w-px bg-line-dark" />

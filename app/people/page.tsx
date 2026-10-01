@@ -63,6 +63,9 @@ export default function PeoplePage() {
           className="mb-10"
         />
         <LegendGrid />
+        <p className="m-0 mt-10 text-center text-[14px] leading-[1.9] text-muted-dark">
+          本页不替任何人打分。我们只整理公开可见的行为证据，判断交给时间，也交给你。
+        </p>
       </section>
 
       {/* 人物档案 */}
@@ -71,7 +74,7 @@ export default function PeoplePage() {
           index="02"
           eyebrow="People Cases"
           title="时代人物 · 六维档案"
-          description="八位时代人物，八种信用样本——从全满贯到全维度击穿。"
+          description="八位时代人物，八种信用样本——从长期验证到争议与重建。"
           className="mb-10"
         />
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

@@ -16,7 +16,10 @@ import {
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
-import type { CreditAssessmentReport } from "@/lib/application/assess-credit";
+import {
+  createPortraitLine,
+  type CreditAssessmentReport,
+} from "@/lib/application/assess-credit";
 import {
   getAssessmentReadiness,
   type CreditAnswer,
@@ -465,6 +468,7 @@ function ResultView({
 }) {
   const { assessment, interpretation } = report;
   const focusDefinition = CREDIT_DIMENSIONS[assessment.focusDimension.id];
+  const portraitLine = createPortraitLine(assessment);
 
   return (
     <main className={styles.result}>
@@ -491,6 +495,11 @@ function ResultView({
           <span>六维均衡值</span>
         </div>
       </header>
+
+      <section className={styles.portraitSection} aria-label="一句话画像">
+        <p className={styles.sectionLabel}>一句话画像</p>
+        <p className={styles.portraitLine}>{portraitLine}</p>
+      </section>
 
       <section className={styles.treeSection} aria-labelledby="tree-heading">
         <div>
@@ -557,7 +566,7 @@ function ResultView({
 
       <section className={styles.nextSection}>
         <div className={styles.stagePanel}>
-          <p className={styles.sectionLabel}>03 · 当前阶段</p>
+          <p className={styles.sectionLabel}>03 · 你的位置</p>
           <span className={styles.stageNumber}>
             {String(assessment.stage.index).padStart(2, "0")}
           </span>
@@ -565,8 +574,11 @@ function ResultView({
           <p>{assessment.stage.statement}</p>
         </div>
         <div className={styles.actionPanel}>
-          <p className={styles.sectionLabel}>04 · 未来30天</p>
-          <h2>先做三件具体的事</h2>
+          <p className={styles.sectionLabel}>04 · 下一步</p>
+          <h2>你下一阶段最应该留下的证据</h2>
+          <p className={styles.actionIntro}>
+            分数只标出位置，证据才改变位置。未来 30 天，从这三件具体的事开始：
+          </p>
           <ol>
             {interpretation.actions.map((action) => (
               <li key={action}>{action}</li>
@@ -619,7 +631,7 @@ function ResultView({
         </p>
         <p className={styles.wechatCtaLink}>
           <Link href="/evidence-camp">
-            想系统地留下证据？了解 21 天信用证据建立营
+            想在 21 天里留下第一份证据？了解信用证据建立营
             <ArrowRight aria-hidden="true" size={14} />
           </Link>
         </p>

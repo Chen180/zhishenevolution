@@ -56,6 +56,34 @@ export function createRuleBasedInterpretation(
   };
 }
 
+/**
+ * 结果页第一层「一句话画像」：纯本地规则生成，不经过大模型。
+ * secondaryFocusDimension 本身已按“与 focus 分差 ≤ 8”判定，存在即追加。
+ */
+export function createPortraitLine(assessment: CreditAssessment): string {
+  const strongest = CREDIT_DIMENSIONS[assessment.strongestDimension.id];
+  const focus = CREDIT_DIMENSIONS[assessment.focusDimension.id];
+  const scoreSpread =
+    assessment.strongestDimension.score - assessment.focusDimension.score;
+
+  if (assessment.focusDimension.score >= 75) {
+    return `你的信用结构整体已经成形，相对值得持续校准的是${focus.name}。`;
+  }
+
+  if (scoreSpread <= 5) {
+    return "你的六个维度分布均衡，信用结构还没有明显的主轴——这通常意味着积累尚浅，或方向仍在探索。";
+  }
+
+  if (assessment.strongestDimension.score >= 60) {
+    const secondary = assessment.secondaryFocusDimension
+      ? `${CREDIT_DIMENSIONS[assessment.secondaryFocusDimension.id].name}也接近同一水平。`
+      : "";
+    return `你的${strongest.name}已经形成，但${focus.name}尚未转化。${secondary}`;
+  }
+
+  return `目前六个维度都还处在建立证据的阶段，最先值得从${focus.name}开始。`;
+}
+
 export async function assessCredit(
   answers: CreditAnswers,
   interpreter?: CreditInterpreter,

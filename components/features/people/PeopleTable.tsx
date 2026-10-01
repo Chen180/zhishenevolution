@@ -22,7 +22,7 @@ export function PeopleTable() {
                 </th>
               ))}
               <th className="border border-line-light px-3 py-3.5 text-center font-bold tracking-wider text-gold">
-                综合评级
+                信用状态
               </th>
             </tr>
           </thead>

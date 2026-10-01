@@ -10,7 +10,6 @@ const NAV_ITEMS = [
   { label: "六个维度", href: "/#system" },
   { label: "人物档案", href: "/people" },
   { label: "文章", href: "/articles" },
-  { label: "思维模型", href: "/models" },
   { label: "信用测评", href: "/credit-test" },
   { label: "财商测评", href: "/fin-test" },
   { label: "建立营", href: "/evidence-camp" },

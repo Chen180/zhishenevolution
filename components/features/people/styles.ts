@@ -20,7 +20,7 @@ export const DIM_TEXT_CLASS: Record<DimensionKey, string> = {
   civilization: "text-dim-civilization",
 };
 
-/** 判定 badge 四档映射品牌色 */
+/** 信用状态 badge 四档映射品牌色 */
 export const VERDICT_BADGE_CLASS: Record<VerdictKind, string> = {
   complete: "border-green-deep/30 bg-green-deep/10 text-green-deep",
   rebuilding: "border-gold/40 bg-gold/10 text-gold",
@@ -28,7 +28,7 @@ export const VERDICT_BADGE_CLASS: Record<VerdictKind, string> = {
   broken: "border-dim-env/40 bg-dim-env/10 text-dim-env",
 };
 
-/** 人物卡评分色 */
+/** 人物卡状态词颜色 */
 export const SCORE_TEXT_CLASS: Record<ScoreTone, string> = {
   high: "text-green-deep",
   mid: "text-gold",

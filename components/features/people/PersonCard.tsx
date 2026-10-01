@@ -55,8 +55,6 @@ export function PersonCard({ person }: PersonCardProps) {
             <p
               className={`m-0 col-span-2 pl-[108px] font-display text-[15px] leading-[1.5] font-bold sm:col-span-1 sm:pl-0 sm:text-center ${SCORE_TEXT_CLASS[dim.tone]}`}
             >
-              {dim.stars}
-              <br />
               {dim.level}
             </p>
           </div>
@@ -65,7 +63,7 @@ export function PersonCard({ person }: PersonCardProps) {
 
       <div className="mx-6 mb-6 rounded-brand border border-gold/25 bg-gold/6 px-5 py-4">
         <p className="m-0 mb-2 text-[12px] font-bold tracking-[0.25em] text-gold uppercase">
-          ▲ 何明轩点评
+          ▲ 证据整理 · 何明轩
         </p>
         <p className="m-0 text-[13.5px] leading-[1.9] text-muted-dark">
           {person.comment}

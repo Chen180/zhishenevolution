@@ -512,6 +512,28 @@
   font-size: 12px;
 }
 
+.portraitSection {
+  padding: 46px 0 44px;
+  border-bottom: 1px solid var(--line);
+}
+
+.portraitLine {
+  max-width: 880px;
+  margin: 0;
+  font-family: "Noto Serif SC", "Songti SC", STSong, serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.actionIntro {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
 .treeSection {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(380px, 0.8fr);
@@ -952,6 +974,14 @@
     padding: 42px 0;
   }
 
+  .portraitSection {
+    padding: 36px 0 34px;
+  }
+
+  .portraitLine {
+    font-size: 23px;
+  }
+
   .treeSection {
     grid-template-columns: 1fr;
     gap: 34px;
@@ -1085,6 +1115,7 @@
 
   /* 所有结果区块分页时整体移动，避免内容被截断 */
   .resultHeader,
+  .portraitSection,
   .treeSection,
   .interpretationSection,
   .nextSection,

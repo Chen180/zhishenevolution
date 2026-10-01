@@ -6,7 +6,7 @@ import { CopyWeChatButton } from "@/components/ui/CopyWeChatButton";
 export const metadata: Metadata = {
   title: "21 天信用证据建立营",
   description:
-    "不是包装人设，而是在 21 天内为六维信用留下第一批真实、可复盘、可展示的行动证据。",
+    "不是课程，而是一次 21 天的共创实验：为自己留下第一份真实、可复盘、可展示的信用档案。",
   alternates: {
     canonical: "/evidence-camp",
   },
@@ -82,9 +82,9 @@ export default function EvidenceCampPage() {
                 建立营
               </h1>
               <p className="m-0 mt-7 max-w-[690px] text-[17px] leading-[1.9] text-muted-light sm:text-xl">
-                不教你包装人设，而是帮你为六维信用留下第一批
+                不教你包装人设，而是陪你完成一次 21 天的共创实验——为自己留下第一份
                 <strong className="font-semibold text-text-light">真实、可复盘、可展示</strong>
-                的行动证据。
+                的信用档案。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="#apply" className="inline-flex min-h-11 items-center gap-2 rounded-[3px] bg-gold-light px-5 text-sm font-bold text-ink transition hover:-translate-y-0.5 hover:bg-[#f6d48d]">
@@ -130,7 +130,7 @@ export default function EvidenceCampPage() {
         <div className="container-site">
           <p className="m-0 text-xs font-bold tracking-[0.2em] text-gold uppercase">The 21-day path</p>
           <div className="mt-4 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <h2 className="m-0 max-w-[700px] font-display text-[clamp(30px,4vw,46px)] leading-[1.25]">不是听完一门课，而是完成一轮证据建设。</h2>
+            <h2 className="m-0 max-w-[700px] font-display text-[clamp(30px,4vw,46px)] leading-[1.25]">不是记住更多道理，而是完成一轮证据建设。</h2>
             <span className="text-sm text-muted-dark">每天 20—30 分钟</span>
           </div>
           <div className="mt-10 border-t border-line-light">

@@ -174,6 +174,9 @@ function Intro({
         <p className={styles.introText}>
           25 道题，从认识钱、理解资产、财富观、金钱心理、长期复利到自己的判断系统，六个维度帮你定位当前的财商等级，并给出下一阶段最值得读的一本书和最该做的三件事。
         </p>
+        <p className={styles.introText}>
+          财商测评不是第二套体系——它是六维信用在金钱决策上的应用：信用决定你是否值得相信别人，判断力决定你是否应该相信别人。
+        </p>
         <button type="button" className={styles.primaryButton} onClick={onStart}>
           {hasProgress ? "继续上次测试" : "开始测试"}
           <ArrowRight aria-hidden="true" size={18} />

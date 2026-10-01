@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { assessCredit } from "../../lib/application/assess-credit";
+import {
+  assessCredit,
+  createPortraitLine,
+} from "../../lib/application/assess-credit";
 import {
   createCreditAssessment,
   getAssessmentReadiness,
   validateCreditAnswers,
   type CreditAnswers,
+  type CreditAssessment,
 } from "../../lib/domain/credit-assessment";
 import {
   CREDIT_DIMENSION_ORDER,
@@ -166,5 +170,52 @@ describe("credit assessment", () => {
 
     expect(report.interpretation.source).toBe("ai");
     expect(report.interpretation.actions[0]).toBe("整理一个代表成果");
+  });
+});
+
+describe("createPortraitLine", () => {
+  function fakeAssessment(
+    strongest: number,
+    focus: number,
+    secondaryFocus?: number,
+  ): CreditAssessment {
+    return {
+      strongestDimension: { id: "time", score: strongest },
+      focusDimension: { id: "label", score: focus },
+      secondaryFocusDimension:
+        secondaryFocus === undefined
+          ? null
+          : { id: "environment", score: secondaryFocus },
+    } as unknown as CreditAssessment;
+  }
+
+  it("全高分时判为整体已成形，而不是积累尚浅", () => {
+    const result = createCreditAssessment(buildCompleteAnswers("high"));
+    expect(createPortraitLine(result)).toContain("整体已经成形");
+  });
+
+  it("全低分时因追问题中性分导致不均衡，给出起点建议", () => {
+    const result = createCreditAssessment(buildCompleteAnswers("low"));
+    expect(createPortraitLine(result)).toContain("建立证据的阶段");
+  });
+
+  it("低分且均衡时提示积累尚浅", () => {
+    const line = createPortraitLine(fakeAssessment(35, 30));
+    expect(line).toContain("积累尚浅");
+  });
+
+  it("强弱分明时给出「已形成 / 尚未转化」画像", () => {
+    const line = createPortraitLine(fakeAssessment(80, 40));
+    expect(line).toBe("你的时间信用已经形成，但标签信用尚未转化。");
+  });
+
+  it("存在次级关注维度时追加提示", () => {
+    const line = createPortraitLine(fakeAssessment(80, 40, 44));
+    expect(line).toContain("环境信用也接近同一水平");
+  });
+
+  it("全部偏低且不均衡时给出起点建议", () => {
+    const line = createPortraitLine(fakeAssessment(45, 20));
+    expect(line).toBe("目前六个维度都还处在建立证据的阶段，最先值得从标签信用开始。");
   });
 });
