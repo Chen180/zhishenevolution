@@ -76,7 +76,7 @@ export type Insight = {
 };
 
 export const PAGE_HEADER = {
-  logo: "智神进化纪 · CREDITOSPHERE",
+  logo: "智神进化纪 · Six-dimensional Credit",
   title: "六维信用体系",
   titleHighlight: "时代人物对照表",
   subtitleLines: [

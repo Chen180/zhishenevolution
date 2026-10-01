@@ -235,6 +235,58 @@
   text-align: center;
 }
 
+/* 文末转化引导 */
+
+.ctaBand {
+  margin: 48px 0 0;
+  padding: 26px 24px;
+  border: 1px solid var(--color-line-light);
+  border-left: 3px solid var(--color-gold);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+}
+
+.ctaTitle {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.ctaLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 14px;
+}
+
+.ctaLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid currentColor;
+  color: var(--color-green-deep);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ctaLinks a:hover {
+  color: var(--color-gold);
+}
+
+.indexCta {
+  width: min(1120px, calc(100% - 48px));
+  margin: 44px auto 0;
+}
+
+.indexCta .ctaBand {
+  margin-top: 0;
+}
+
 @media (max-width: 640px) {
   .header h1 {
     font-size: 32px;

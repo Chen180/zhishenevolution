@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "免责声明",
   description:
     "本站内容为个人成长观察框架，测评结果为阶段性自我观察记录，不构成任何专业意见、诊断或建议。",
+  alternates: {
+    canonical: "/disclaimer",
+  },
+  openGraph: {
+    title: "免责声明",
+    description:
+      "本站内容为个人成长观察框架，测评结果为阶段性自我观察记录，不构成任何专业意见、诊断或建议。",
+    url: "/disclaimer",
+  },
 };
 
 export default function DisclaimerPage() {

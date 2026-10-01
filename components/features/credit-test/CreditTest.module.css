@@ -759,6 +759,22 @@
   font-size: 13px !important;
 }
 
+.wechatCtaLink {
+  margin-top: 16px !important;
+}
+
+.wechatCtaLink a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid currentColor;
+  color: var(--orange);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .resultFooter {
   display: flex;
   align-items: center;

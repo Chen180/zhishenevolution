@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { About } from "@/components/features/home/About";
 import { CaseGrid } from "@/components/features/home/CaseGrid";
 import { DimensionTabs } from "@/components/features/home/DimensionTabs";
@@ -8,6 +9,19 @@ import { ObservationFeed } from "@/components/features/home/ObservationFeed";
 import { Resources } from "@/components/features/home/Resources";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { SITE } from "@/lib/config/site";
+
+export const metadata: Metadata = {
+  title: { absolute: SITE.title },
+  description: SITE.description,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: SITE.title,
+    description: SITE.description,
+    url: "/",
+  },
+};
 
 const websiteJsonLd = {
   "@context": "https://schema.org",

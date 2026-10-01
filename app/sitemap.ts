@@ -3,6 +3,9 @@ import { SITE } from "@/lib/config/site";
 import { listArticles } from "@/lib/domain/articles";
 import { getAllModels } from "@/lib/domain/thinking-models";
 
+/** 静态路由最近一次内容更新日期，随实际改动手动推进 */
+const STATIC_LAST_MODIFIED = new Date("2026-09-30");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     "",
@@ -17,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
   ].map((path) => ({
     url: `${SITE.url}${path}`,
+    lastModified: STATIC_LAST_MODIFIED,
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority: path === "" ? 1 : path === "/models" ? 0.9 : 0.7,
   }));

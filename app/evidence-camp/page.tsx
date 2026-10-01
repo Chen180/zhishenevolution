@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowDownRight, ArrowRight, CheckCircle2, Clock3, Users, type LucideIcon } from "lucide-react";
-import { CopyWeChatButton } from "@/components/features/evidence-camp/CopyWeChatButton";
+import { CopyWeChatButton } from "@/components/ui/CopyWeChatButton";
 
 export const metadata: Metadata = {
   title: "21 天信用证据建立营",
@@ -170,7 +170,7 @@ export default function EvidenceCampPage() {
             <p className="m-0 text-xs font-bold tracking-[0.2em] text-gold uppercase">Apply for the first cohort</p>
             <h2 className="m-0 mt-4 font-display text-[clamp(30px,4vw,46px)] leading-[1.25]">先证明你愿意开始。</h2>
             <p className="m-0 mt-5 max-w-[580px] text-[15px] leading-[1.9] text-muted-dark">首期为 30 人共创营，价格与开营时间不在站内公示。每一次报名前，我们希望先有一次真实的对话：复制微信号添加何明轩，备注「证据」，一对一沟通后再确认报名。</p>
-            <div className="mt-8"><CopyWeChatButton /></div>
+            <div className="mt-8"><CopyWeChatButton label="复制微信号详询" /></div>
             <p className="m-0 mt-5 text-xs leading-[1.75] text-muted-dark">本营不提供人格诊断、征信结论或结果承诺；它只陪你完成一次真实的观察、复盘与行动。</p>
           </div>
           <div className="flex flex-col justify-between bg-[#dfe3dc] p-7 sm:p-12 lg:p-16">

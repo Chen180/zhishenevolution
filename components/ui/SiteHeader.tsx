@@ -2,29 +2,30 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
   { label: "核心定义", href: "/#definition" },
   { label: "双模型", href: "/#models" },
   { label: "六个维度", href: "/#system" },
-  { label: "人物案例", href: "/#cases" },
   { label: "人物档案", href: "/people" },
   { label: "文章", href: "/articles" },
   { label: "思维模型", href: "/models" },
   { label: "信用测评", href: "/credit-test" },
   { label: "财商测评", href: "/fin-test" },
+  { label: "建立营", href: "/evidence-camp" },
 ];
 
 const MOBILE_NAV_ITEMS = [
   ...NAV_ITEMS,
-  { label: "信用证据建立营", href: "/evidence-camp" },
   { label: "关于何明轩", href: "/#about" },
 ];
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
@@ -32,6 +33,19 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    mobileNavRef.current?.querySelector("a")?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMenuOpen]);
 
   return (
     <header
@@ -71,6 +85,7 @@ export function SiteHeader() {
 
         <button
           type="button"
+          ref={menuButtonRef}
           className="hidden text-text-light max-[820px]:block"
           aria-expanded={isMenuOpen}
           aria-label={isMenuOpen ? "关闭菜单" : "打开菜单"}
@@ -82,6 +97,7 @@ export function SiteHeader() {
 
       {isMenuOpen ? (
         <nav
+          ref={mobileNavRef}
           aria-label="移动端导航"
           className="border-t border-line-dark bg-ink/95 backdrop-blur-md"
         >

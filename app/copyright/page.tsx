@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "版权声明",
   description:
     "六维信用体系及其全部内容为何明轩原创作品，受著作权法保护。本站内容的使用许可与授权说明。",
+  alternates: {
+    canonical: "/copyright",
+  },
+  openGraph: {
+    title: "版权声明",
+    description:
+      "六维信用体系及其全部内容为何明轩原创作品，受著作权法保护。本站内容的使用许可与授权说明。",
+    url: "/copyright",
+  },
 };
 
 export default function CopyrightPage() {

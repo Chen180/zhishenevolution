@@ -1,5 +1,6 @@
 import { MessageCircle, Video } from "lucide-react";
 import Image from "next/image";
+import { CopyWeChatButton } from "@/components/ui/CopyWeChatButton";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
@@ -79,6 +80,9 @@ export function About() {
               <span className="text-gold-light/80">注明来意</span>
             </figcaption>
           </figure>
+          <div className="mt-4 flex justify-center">
+            <CopyWeChatButton />
+          </div>
         </Reveal>
       </div>
     </section>

@@ -8,7 +8,7 @@ import {
 } from "@/lib/domain/thinking-models";
 import { getLayerVisual } from "./layer-meta";
 import { ModelDiagram } from "./ModelDiagram";
-import { ShareCards } from "./ShareCards";
+import { ShareCardsLazy } from "./ShareCardsLazy";
 import styles from "./ThinkingModels.module.css";
 
 export function ModelDetail({ model }: { model: ThinkingModel }) {
@@ -46,7 +46,7 @@ export function ModelDetail({ model }: { model: ThinkingModel }) {
             <p className={styles.detailNameEn}>{model.nameEn}</p>
           ) : null}
           <p className={styles.detailDefinition}>{model.definition}</p>
-          <ShareCards model={model} />
+          <ShareCardsLazy model={model} />
         </header>
 
         <ModelDiagram model={model} />
@@ -108,6 +108,17 @@ export function ModelDetail({ model }: { model: ThinkingModel }) {
               </ul>
             ) : null}
           </div>
+        </section>
+
+        <section className={styles.ctaBand} aria-label="下一步">
+          <p className={styles.ctaTitle}>用 100 个思维模型，先看清自己</p>
+          <p className={styles.ctaText}>
+            思维模型帮你理解世界，信用测评帮你定位此刻的自己。
+          </p>
+          <Link href="/credit-test" className={styles.ctaLink}>
+            完成六维信用测评
+            <ArrowRight size={14} />
+          </Link>
         </section>
 
         <nav className={styles.pagerNav} aria-label="模型翻页">

@@ -87,6 +87,22 @@ export function ArticleDetail({
           </p>
         ) : null}
 
+        <section className={styles.ctaBand} aria-label="下一步">
+          <p className={styles.ctaTitle}>
+            读到这里，不妨把观察落到自己身上。
+          </p>
+          <div className={styles.ctaLinks}>
+            <Link href="/credit-test">
+              测测你的信用生命树
+              <ArrowRight size={13} />
+            </Link>
+            <Link href="/evidence-camp">
+              了解 21 天信用证据建立营
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </section>
+
         <p className={styles.copyright}>
           智神进化纪 zhishenevo.com ｜ 何明轩 · 保留所有权利
         </p>

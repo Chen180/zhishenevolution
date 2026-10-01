@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: SITE.url,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
   },
 };
 
@@ -40,8 +40,14 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:text-ink"
+        >
+          跳到主要内容
+        </a>
         <SiteHeader />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <SiteFooter />
       </body>
     </html>

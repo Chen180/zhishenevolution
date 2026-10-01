@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { listArticles } from "@/lib/domain/articles";
 import styles from "./Articles.module.css";
@@ -40,6 +41,24 @@ export function ArticlesIndex() {
           </Link>
         ))}
       </section>
+
+      <div className={styles.indexCta}>
+        <section className={styles.ctaBand} aria-label="下一步">
+          <p className={styles.ctaTitle}>
+            读完别人的故事，也看看自己的信用结构。
+          </p>
+          <div className={styles.ctaLinks}>
+            <Link href="/credit-test">
+              测测你的信用生命树
+              <ArrowRight size={13} />
+            </Link>
+            <Link href="/evidence-camp">
+              了解 21 天信用证据建立营
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

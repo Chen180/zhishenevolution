@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { InsightCards } from "@/components/features/people/InsightCards";
 import { LegendGrid } from "@/components/features/people/LegendGrid";
 import { PeopleTable } from "@/components/features/people/PeopleTable";
@@ -11,6 +13,15 @@ export const metadata: Metadata = {
   title: "时代人物对照表",
   description:
     "六维信用体系 · 时代人物对照表：标签、时间、环境、人格、社会、文明，六维信用是唯一无法被批量生成的人格资产负债表。",
+  alternates: {
+    canonical: "/people",
+  },
+  openGraph: {
+    title: "时代人物对照表",
+    description:
+      "六维信用体系 · 时代人物对照表：标签、时间、环境、人格、社会、文明，六维信用是唯一无法被批量生成的人格资产负债表。",
+    url: "/people",
+  },
 };
 
 export default function PeoplePage() {
@@ -96,6 +107,27 @@ export default function PeoplePage() {
         </div>
       </section>
 
+      {/* 测评引导 */}
+      <section className="container-site pb-20 sm:pb-24">
+        <Reveal>
+          <div className="mx-auto max-w-[900px] rounded-brand border border-line-light border-l-[3px] border-l-gold bg-paper-strong p-7 text-center sm:p-10">
+            <p className="m-0 font-display text-[clamp(20px,3vw,26px)] leading-[1.5] text-text-dark">
+              你想成为哪种信用样本？
+            </p>
+            <p className="m-0 mt-3 text-[14px] leading-[1.9] text-muted-dark">
+              八种样本是一面镜子。照见别人之后，也该照照自己。
+            </p>
+            <Link
+              href="/credit-test"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-[3px] bg-gold-light px-6 text-sm font-bold text-ink transition hover:-translate-y-0.5 hover:bg-[#f6d48d]"
+            >
+              先完成一次六维信用测评
+              <ArrowRight size={16} aria-hidden />
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
       {/* 结语 */}
       <section className="border-t border-line-light bg-paper-muted/40">
         <div className="container-site py-14 text-center">
@@ -104,7 +136,7 @@ export default function PeoplePage() {
               {MANIFESTO}
             </p>
             <p className="m-0 mt-4 text-[13px] tracking-[0.2em] text-muted-dark">
-              何明轩 · 智神进化纪 · 2026年8月
+              何明轩 · 智神进化纪 · 2026年9月
             </p>
           </Reveal>
         </div>

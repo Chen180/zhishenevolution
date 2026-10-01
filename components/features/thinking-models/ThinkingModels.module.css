@@ -394,6 +394,50 @@
   color: var(--color-gold);
 }
 
+/* 页尾测评引导 */
+
+.ctaBand {
+  margin-top: 56px;
+  padding: 26px 24px;
+  border: 1px solid var(--color-line-light);
+  border-left: 3px solid var(--color-gold);
+  border-radius: var(--radius-brand);
+  background: var(--color-paper-strong);
+}
+
+.ctaTitle {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.ctaText {
+  margin: 8px 0 0;
+  color: var(--color-muted-dark);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.ctaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid currentColor;
+  color: var(--color-green-deep);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ctaLink:hover {
+  color: var(--color-gold);
+}
+
 /* 分享图 */
 
 .shareRow {

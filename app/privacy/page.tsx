@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "隐私说明",
   description:
     "本站不注册、不存储测评答案。如实说明测评数据与访问日志的实际处理方式。",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    title: "隐私说明",
+    description:
+      "本站不注册、不存储测评答案。如实说明测评数据与访问日志的实际处理方式。",
+    url: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

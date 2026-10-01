@@ -6,7 +6,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
-  Copy,
   LoaderCircle,
   Printer,
   RotateCcw,
@@ -15,6 +14,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import type { FinAssessmentReport } from "@/lib/application/assess-fin";
 import {
@@ -29,8 +29,13 @@ import {
   type FinQuestion,
   type SingleChoiceQuestion,
 } from "@/lib/domain/fin-questions";
-import { FinResultShare } from "./FinResultShare";
+import { CopyWeChatButton } from "@/components/ui/CopyWeChatButton";
 import styles from "./FinTest.module.css";
+
+const FinResultShare = dynamic(
+  () => import("./FinResultShare").then((mod) => mod.FinResultShare),
+  { ssr: false },
+);
 
 type Phase = "intro" | "guide" | "quiz" | "generating" | "result";
 
@@ -147,31 +152,6 @@ function OptionButton({
         {selected ? <Check aria-hidden="true" size={16} /> : null}
       </span>
       <span>{label}</span>
-    </button>
-  );
-}
-
-function CopyWeChatButton() {
-  const [copied, setCopied] = useState(false);
-
-  async function copyWeChatId() {
-    await navigator.clipboard.writeText(WECHAT_ID);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
-  }
-
-  return (
-    <button
-      type="button"
-      className={styles.primaryButton}
-      onClick={() => void copyWeChatId()}
-    >
-      {copied ? (
-        <Check aria-hidden="true" size={17} />
-      ) : (
-        <Copy aria-hidden="true" size={17} />
-      )}
-      {copied ? "微信号已复制" : "复制微信号，备注「财商」"}
     </button>
   );
 }
@@ -613,9 +593,15 @@ function ResultView({
           」这一级的行动清单——这一级最常见的三个误区，以及未来 30
           天该做的三件具体的事。
         </p>
-        <CopyWeChatButton />
+        <CopyWeChatButton note="备注「财商」" className={styles.primaryButton} />
         <p className={styles.wechatCtaNote}>
           我们不存储任何测试数据，你的结果只存在你的截图里。
+        </p>
+        <p className={styles.wechatCtaLink}>
+          <Link href="/credit-test">
+            财商是信用的一维——看看你的完整信用结构
+            <ArrowRight aria-hidden="true" size={14} />
+          </Link>
         </p>
       </section>
 

@@ -14,6 +14,7 @@ import {
   TreePine,
 } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import type { CreditAssessmentReport } from "@/lib/application/assess-credit";
 import {
@@ -31,9 +32,13 @@ import {
   type CreditQuestion,
   type SingleChoiceQuestion,
 } from "@/lib/domain/credit-questions";
-import { CreditResultShare } from "./CreditResultShare";
 import { CreditTree } from "./CreditTree";
 import styles from "./CreditTest.module.css";
+
+const CreditResultShare = dynamic(
+  () => import("./CreditResultShare").then((mod) => mod.CreditResultShare),
+  { ssr: false },
+);
 
 type Phase = "intro" | "guide" | "quiz" | "generating" | "result";
 
@@ -611,6 +616,12 @@ function ResultView({
         </p>
         <p className={styles.wechatCtaNote}>
           我们不存储任何测评数据，你的结果只存在你的截图里。
+        </p>
+        <p className={styles.wechatCtaLink}>
+          <Link href="/evidence-camp">
+            想系统地留下证据？了解 21 天信用证据建立营
+            <ArrowRight aria-hidden="true" size={14} />
+          </Link>
         </p>
       </section>
 
