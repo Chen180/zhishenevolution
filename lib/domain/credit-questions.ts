@@ -76,7 +76,7 @@ export const CREDIT_DIMENSIONS: Record<
     metric: "验证度",
     chapterTitle: "接下来，看风雨。",
     chapterQuote: "一个人的信用，真正进入现实以后，才会接受验证。",
-    description: "变化、顺境和逆境是否验证了你的适应力与原则稳定性。",
+    description: "变化、顺境和逆境是否验证了你的适应力与价值一致性。",
     focusDescription:
       "环境变化对你的方向和行动影响较大。需要建立不依赖单一平台的能力，并把挫折转化为下一次可使用的方法。",
     actions: [

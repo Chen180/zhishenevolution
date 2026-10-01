@@ -9,8 +9,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const MODELS_MD = join(root, "Resource", "世界顶尖100个思维模型.md");
-const BOOKS_MD = join(root, "Resource", "思维模型_经典书籍映射表.md");
+const MODELS_MD = join(root, "Resource", "OriginContent", "世界顶尖100个思维模型.md");
+const BOOKS_MD = join(root, "Resource", "OriginContent", "思维模型_经典书籍映射表.md");
 const OUTPUT = join(root, "data", "thinking-models.json");
 
 const LAYERS = [

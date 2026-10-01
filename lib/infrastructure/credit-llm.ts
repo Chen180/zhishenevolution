@@ -119,7 +119,7 @@ function buildPrompt(assessment: CreditAssessment) {
     task:
       "根据六维分数写一份克制、具体、非诊断性的中文初步解读。不得虚构经历，不得把分数写成道德评价。",
     framework:
-      "标签让人被看见，时间形成积累，环境验证稳定性，人格构成根系，社会形成连接，文明让价值延续。",
+      "标签让人被看见，时间形成积累，环境验证一致性，人格构成根系，社会形成连接，文明让价值延续。",
     data: {
       overallScore: assessment.overallScore,
       confidence: assessment.confidence,

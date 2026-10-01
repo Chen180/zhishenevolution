@@ -6,8 +6,9 @@
 ## 背景
 
 站点新增「世界顶尖 100 个思维模型」内容库。原始资料（
-`Resource/世界顶尖100个思维模型.md`、
-`Resource/思维模型_经典书籍映射表.md`）按 ADR 0001 的约定不进入
+`Resource/OriginContent/世界顶尖100个思维模型.md`、
+`Resource/OriginContent/思维模型_经典书籍映射表.md`，母版现统一归档于
+`Resource/OriginContent/`）按 ADR 0001 的约定不进入
 Git 与生产镜像，但页面内容必须在构建时可获得。
 
 ## 决策
@@ -18,7 +19,7 @@ Git 与生产镜像，但页面内容必须在构建时可获得。
   并提交 Git。站点页面只读取转换产物，不直接读 Resource。
 - 母版变更时手动执行 `npm run build:models` 重新生成并提交产物。
   Docker 构建不依赖 Resource。
-- `Resource/世界顶尖100个思维模型.html`（暗色幻灯片）视觉风格与站点
+- `Resource/OriginContent/世界顶尖100个思维模型.html`（暗色幻灯片）视觉风格与站点
   不一致，不整合；md 是唯一内容源。
 
 ## 备选方案

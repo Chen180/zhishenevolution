@@ -41,6 +41,9 @@ export function Manifesto() {
             </em>
             。
           </p>
+          <p className="m-0 mt-6 text-[15px] leading-[1.9] text-muted-dark">
+            用生命树来表述：信用，是别人根据这棵树过去的生长与结果，对它未来还能长成什么，所形成的稳定预期。
+          </p>
           <div
             aria-label="六维信用体系概览"
             className="mt-12 grid gap-5 border-t border-line-light pt-[30px] sm:grid-cols-3 sm:gap-7"
