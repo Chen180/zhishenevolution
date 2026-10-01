@@ -89,12 +89,12 @@ export const PAGE_HEADER = {
 export const MANIFESTO = "「信用即权力，价值即边疆」";
 
 export const DIMENSION_LEGENDS: DimensionLegend[] = [
-  { key: "label", icon: "🏷️", name: "标签信用", description: "你在特定领域的专业辨识度" },
-  { key: "time", icon: "⏳", name: "时间信用", description: "长期言行一致穿越周期的证明" },
-  { key: "environment", icon: "🌐", name: "环境信用", description: "所在圈层的势能反哺" },
-  { key: "persona", icon: "💎", name: "人格信用", description: "无人监督时的道德选择" },
-  { key: "social", icon: "🤝", name: "社会信用", description: "公共契约精神履约记录" },
-  { key: "civilization", icon: "🔥", name: "文明信用", description: "推动普世价值的微进步" },
+  { key: "label", icon: "🏷️", name: "标签信用", description: "让别人认识你：社会给予个人的身份识别" },
+  { key: "time", icon: "⏳", name: "时间信用", description: "时间对一个人长期一致性的默默记录" },
+  { key: "environment", icon: "🌐", name: "环境信用", description: "换土之后，仍是你的价值一致性" },
+  { key: "persona", icon: "💎", name: "人格信用", description: "三重验证后沉淀出的内在稳定性" },
+  { key: "social", icon: "🤝", name: "社会信用", description: "信用在关系网络中的传播与放大" },
+  { key: "civilization", icon: "🔥", name: "文明信用", description: "价值超越个人存在的影响与传承" },
 ];
 
 export const PEOPLE: Person[] = [
